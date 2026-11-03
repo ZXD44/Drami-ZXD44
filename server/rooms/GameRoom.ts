@@ -31,19 +31,33 @@ export class GameRoom extends Room<any> {
         this.onMessage("move", (client, data) => {
             const state = this.state as GameState;
             const player = state.players.get(client.sessionId);
-            if (player) {
-                player.x = data.x;
-                player.y = data.y;
+            if (!player || typeof data?.x !== "number" || typeof data?.y !== "number") return;
+
+            // Speedhack / Teleport detection (Distance limit per frame/tick)
+            const dx = data.x - player.x;
+            const dy = data.y - player.y;
+            const distSq = dx * dx + dy * dy;
+            const maxAllowedDistance = 450; // max reasonable displacement between packet updates
+
+            if (distSq > maxAllowedDistance * maxAllowedDistance && player.role !== "admin") {
+                console.warn(`[Anti-Cheat] Suspicious displacement detected for ${player.username}: distSq=${distSq}`);
+                // Reject teleportation, force snapback to valid server coords
+                client.send("snapback", { x: player.x, y: player.y });
+                return;
             }
+
+            player.x = data.x;
+            player.y = data.y;
         });
 
         this.onMessage("chat", (client, message) => {
-            console.log(`[Chat] ${client.sessionId}: ${message}`);
+            if (typeof message !== "string" || message.trim() === "") return;
+            const sanitizedMsg = message.trim().slice(0, 150); // Anti-spam & buffer overload protection
             const player = (this.state as GameState).players.get(client.sessionId);
             this.broadcast("chat", { 
                 sessionId: client.sessionId, 
                 username: player?.username || "Guest",
-                message: message 
+                message: sanitizedMsg 
             });
         });
 
