@@ -86,7 +86,6 @@ graph TD
     B --> C[2. แสดงหลอดโหลดความคืบหน้าตัดไม้/ขุดแร่]
     C --> D[3. ส่ง Event เก็บเกี่ยวไปยัง GameRoom.ts เซิร์ฟเวอร์]
     D --> E[4. สุ่มไอเทมลงกระเป๋า Inventory และเพิ่ม EXP ทักษะ]
-    E --> F[5. ซิงค์ Minimap.jpg เข้ากับ MiniMap.svelte]
 ```
 
 1. **ระบบเก็บเกี่ยว Life Skills ในแผนที่ (Harvesting & Gathering)**:
@@ -96,8 +95,8 @@ graph TD
 2. **ระบบดรอปไอเทม & EXP ทักษะ (Server Authoritative)**:
    * เซิร์ฟเวอร์ตรวจสอบระยะห่าง แล้วสุ่มดรอปไอเทม (เช่น `log_beech_item` หรือ `mining_ore`) ลงตาราง `Inventory` ในฐานข้อมูล
    * เพิ่มค่า EXP ในทักษะ `woodcutting`, `mining`, หรือ `farming` ใน `$skills`
-3. **ปรับแต่ง Minimap ให้ตรงกับแมพจริง**:
-   * นำภาพ [`client/static/assets/map/minimap.jpg`](client/static/assets/map/minimap.jpg) มาแสดงเป็นพื้นหลังใน [`MiniMap.svelte`](client/src/lib/game/components/MiniMap.svelte) พร้อมคำนวณสัดส่วนพิกัดผู้เล่น 150x150 tiles
+3. **ระบบ Monster Spawner & NPC Interaction จาก MapEditorTab**:
+   * นำข้อมูล Entities ที่แอดมินบันทึกจาก `MapEditorTab.svelte` มาเรนเดอร์ลงใน `MainScene.ts` พร้อมเปิด Dialog กล่องข้อความเมื่อคลิกคุยกับ NPC
 
 ---
 
