@@ -4,10 +4,22 @@ export class InputManager {
     private scene: Phaser.Scene;
     public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     public wasd!: { up: Phaser.Input.Keyboard.Key, down: Phaser.Input.Keyboard.Key, left: Phaser.Input.Keyboard.Key, right: Phaser.Input.Keyboard.Key };
+    private virtualVector: { x: number, y: number } = { x: 0, y: 0 };
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
         this.setup();
+        this.setupVirtualListener();
+    }
+
+    private setupVirtualListener() {
+        if (typeof window !== "undefined") {
+            window.addEventListener("drami-virtual-move", (e: any) => {
+                if (e?.detail) {
+                    this.virtualVector = { x: e.detail.x || 0, y: e.detail.y || 0 };
+                }
+            });
+        }
     }
 
     private setup() {
@@ -44,7 +56,14 @@ export class InputManager {
     }
 
     public getMovementVector(): { x: number, y: number } {
-        if (this.isTyping() || !this.cursors) return { x: 0, y: 0 };
+        if (this.isTyping()) return { x: 0, y: 0 };
+
+        // 1. Mobile Virtual Joystick Priority
+        if (this.virtualVector.x !== 0 || this.virtualVector.y !== 0) {
+            return this.virtualVector;
+        }
+
+        if (!this.cursors) return { x: 0, y: 0 };
 
         let moveX = 0;
         let moveY = 0;

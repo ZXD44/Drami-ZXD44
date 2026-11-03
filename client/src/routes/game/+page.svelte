@@ -15,6 +15,7 @@
 	import Hotbar from "$lib/game/components/Hotbar.svelte";
 	import AdminPanel from "$lib/game/AdminPanel.svelte";
 	import AvatarCreator from "$lib/game/AvatarCreator.svelte";
+	import VirtualJoystick from "$lib/game/components/VirtualJoystick.svelte";
 
 	// Services & Utils
 	import { uploadAvatar, createCharacter } from "$lib/game/services/playerService";
@@ -171,6 +172,7 @@
 
 <PlayerHUD />
 <MiniMap />
+<VirtualJoystick />
 
 <div class="hud-side-panel">
 	{#each [['Q', 'quests', '📜'], ['T', 'skills', '⚡'], ['F', 'party', '👥'], ['ESC', 'settings', '⚙️']] as [key, id, icon]}
