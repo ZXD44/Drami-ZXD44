@@ -10,7 +10,9 @@
     import DashboardTab from "./admin/DashboardTab.svelte";
     import PlayersTab from "./admin/PlayersTab.svelte";
     import BroadcastTab from "./admin/BroadcastTab.svelte";
+    import MapEditorTab from "./admin/MapEditorTab.svelte";
     import EditUserModal from "./admin/EditUserModal.svelte";
+    import Icon from "./components/Icon.svelte";
 
     let { onDispose } = $props<{ onDispose: () => void }>();
 
@@ -143,15 +145,19 @@
     <div class="admin-nav-bar">
         <div class="nav-tabs">
             <button class="nav-tab" class:active={activeTab === 'dashboard'} onclick={() => activeTab = 'dashboard'}>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+                <Icon name="ping" size={15} />
                 <span>ภาพรวม</span>
             </button>
             <button class="nav-tab" class:active={activeTab === 'players'} onclick={() => activeTab = 'players'}>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <Icon name="users" size={15} />
                 <span>ผู้เล่น</span>
             </button>
+            <button class="nav-tab" class:active={activeTab === 'map_editor'} onclick={() => activeTab = 'map_editor'}>
+                <Icon name="map" size={15} color="#fcd34d" />
+                <span>จัดการแมพ/จุดเกิด</span>
+            </button>
             <button class="nav-tab" class:active={activeTab === 'broadcast'} onclick={() => activeTab = 'broadcast'}>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <Icon name="horn" size={15} />
                 <span>ประกาศ</span>
             </button>
         </div>
@@ -159,9 +165,7 @@
             {#if loading}
                 <div class="spinner-sm"></div>
             {:else}
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-                </svg>
+                <Icon name="sparkles" size={16} />
             {/if}
         </button>
     </div>
@@ -169,6 +173,8 @@
     <div class="admin-body-scroll">
         {#if activeTab === 'dashboard'}
             <DashboardTab {stats} />
+        {:else if activeTab === 'map_editor'}
+            <MapEditorTab />
         {:else if activeTab === 'broadcast'}
             <BroadcastTab onBroadcast={handleBroadcast} />
         {:else if activeTab === 'players'}

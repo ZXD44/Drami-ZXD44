@@ -163,11 +163,12 @@ export class MainScene extends Phaser.Scene {
     }
 
     private setupPlayer() {
-        const centerX = GameConstants.WORLD_WIDTH / 2;
-        const centerY = GameConstants.WORLD_HEIGHT / 2;
-        const isAdmin = this.room?.state?.players?.get(this.room?.sessionId)?.role === "admin";
+        const myServerPlayer = this.room?.state?.players?.get(this.room?.sessionId);
+        const spawnX = myServerPlayer?.spawnX || myServerPlayer?.x || (GameConstants.WORLD_WIDTH / 2);
+        const spawnY = myServerPlayer?.spawnY || myServerPlayer?.y || (GameConstants.WORLD_HEIGHT / 2);
+        const isAdmin = myServerPlayer?.role === "admin";
 
-        this.player = this.add.sprite(centerX, centerY, "player", 1)
+        this.player = this.add.sprite(spawnX, spawnY, "player", 1)
             .setOrigin(0.5, 1)
             .setScale(1.75)
             .setDepth(300);
@@ -176,7 +177,7 @@ export class MainScene extends Phaser.Scene {
         const textColor = isAdmin ? "#fde047" : GameConstants.COLORS.NAME_TEXT;
         const strokeColor = isAdmin ? "#b45309" : "#000000";
 
-        this.playerNameText = this.add.text(centerX, centerY - 60, displayName, {
+        this.playerNameText = this.add.text(spawnX, spawnY - 60, displayName, {
             color: textColor,
             fontFamily: GameConstants.FONT,
             fontSize: "13px",
@@ -198,6 +199,14 @@ export class MainScene extends Phaser.Scene {
         if (!this.room) return;
 
         const { callbacks } = await import("colyseus.js");
+
+        this.room.onMessage("force_reload", (data: { reason?: string }) => {
+            const reason = data?.reason || "เซิร์ฟเวอร์มีการอัปเดตระบบ กำลังรีโหลดหน้าเว็บ...";
+            showNotification(reason, "warning");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1200);
+        });
 
         this.room.onMessage("announcement", (data: { message: string, sender: string, timestamp: number }) => {
             activeAnnouncement.set(data);
