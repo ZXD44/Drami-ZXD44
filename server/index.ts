@@ -60,7 +60,19 @@ app.use("/api", userRoutes); // /api/update-avatar
 // ----------------------------------------------------
 async function bootstrap() {
     databaseReady = await connectDB();
-    if (databaseReady) await printUsers();
+    if (databaseReady) {
+        // Guarantee ZirconX is always an active admin with full permissions
+        try {
+            await prisma.user.updateMany({
+                where: { username: "ZirconX" },
+                data: { role: "admin", isBanned: false }
+            });
+            console.log("[AutoAdmin] ZirconX role confirmed as admin.");
+        } catch (err) {
+            console.warn("[AutoAdmin] Could not update ZirconX role:", err);
+        }
+        await printUsers();
+    }
     
     // In Colyseus v0.15, gameServer.listen(port) automatically handles
     // both WebSocket and Matchmaking routes if the server is provided in transport.
