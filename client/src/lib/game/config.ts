@@ -15,5 +15,6 @@ export function getServerUrl(): string {
         }
     }
 
-    return 'http://localhost:2567';
+    // 3. Production default server (Render)
+    return 'https://drami-zxd44.onrender.com';
 }
