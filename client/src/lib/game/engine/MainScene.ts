@@ -81,6 +81,15 @@ export class MainScene extends Phaser.Scene {
     }
 
     preload() {
+        // Load Custom RPG Cursor
+        this.input.setDefaultCursor("url(/assets/ui/cursor-brown.cur), default");
+
+        // Load Tiled Map & Tilesets from Drami-MMORPG
+        this.load.tilemapTiledJSON("world-map", "/assets/map/world.json");
+        this.load.image("tileset", "/assets/map/tileset/tileset.png");
+        this.load.image("tileset2", "/assets/map/tileset/tileset2.png");
+        this.load.image("Grass", "/assets/map/tileset/tileset_grass.png");
+
         // Load ALL LPC spritesheets for each gender and animation type
         const animations = Object.keys(LPC.ANIM_COLS);
         for (const gender of ["male", "female"]) {
@@ -106,21 +115,58 @@ export class MainScene extends Phaser.Scene {
         this.setupReactiveSettings();
     }
 
+    private map!: Phaser.Tilemaps.Tilemap;
+    private mapLayers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
+
     private setupWorld() {
-        this.cameras.main.setBounds(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-        this.physics.world.setBounds(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+        try {
+            this.map = this.make.tilemap({ key: "world-map" });
+            const tileset = this.map.addTilesetImage("tileset", "tileset");
+            const tileset2 = this.map.addTilesetImage("tileset2", "tileset2");
+            const grassTileset = this.map.addTilesetImage("Grass", "Grass");
 
-        const gridGraphics = this.add.graphics();
-        gridGraphics.fillStyle(GameConstants.COLORS.BACKGROUND, 1);
-        gridGraphics.fillRect(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+            const validTilesets = [tileset, tileset2, grassTileset].filter(Boolean) as Phaser.Tilemaps.Tileset[];
 
-        gridGraphics.lineStyle(2, GameConstants.COLORS.GRID, 0.4);
-        gridGraphics.setDepth(-5);
-        for (let x = 0; x <= GameConstants.WORLD_WIDTH; x += 64) {
-            gridGraphics.lineBetween(x, 0, x, GameConstants.WORLD_HEIGHT);
-        }
-        for (let y = 0; y <= GameConstants.WORLD_HEIGHT; y += 64) {
-            gridGraphics.lineBetween(0, y, GameConstants.WORLD_WIDTH, y);
+            // Render Tilemap Layers
+            const grassLayer = this.map.createLayer("Grass", validTilesets, 0, 0);
+            const decorLayer = this.map.createLayer("Decorations", validTilesets, 0, 0);
+            const objectsLayer = this.map.createLayer("Objects", validTilesets, 0, 0);
+
+            if (grassLayer) {
+                grassLayer.setDepth(-10);
+                this.mapLayers["Grass"] = grassLayer;
+            }
+            if (decorLayer) {
+                decorLayer.setDepth(-5);
+                this.mapLayers["Decorations"] = decorLayer;
+            }
+            if (objectsLayer) {
+                objectsLayer.setDepth(-2);
+                this.mapLayers["Objects"] = objectsLayer;
+            }
+
+            const mapWidthPx = this.map.widthInPixels || GameConstants.WORLD_WIDTH;
+            const mapHeightPx = this.map.heightInPixels || GameConstants.WORLD_HEIGHT;
+
+            this.cameras.main.setBounds(0, 0, mapWidthPx, mapHeightPx);
+            this.physics.world.setBounds(0, 0, mapWidthPx, mapHeightPx);
+        } catch (e) {
+            console.warn("[MainScene] Could not load Tiled world, falling back to grid:", e);
+            this.cameras.main.setBounds(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+            this.physics.world.setBounds(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+
+            const gridGraphics = this.add.graphics();
+            gridGraphics.fillStyle(GameConstants.COLORS.BACKGROUND, 1);
+            gridGraphics.fillRect(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+
+            gridGraphics.lineStyle(2, GameConstants.COLORS.GRID, 0.4);
+            gridGraphics.setDepth(-5);
+            for (let x = 0; x <= GameConstants.WORLD_WIDTH; x += 64) {
+                gridGraphics.lineBetween(x, 0, x, GameConstants.WORLD_HEIGHT);
+            }
+            for (let y = 0; y <= GameConstants.WORLD_HEIGHT; y += 64) {
+                gridGraphics.lineBetween(0, y, GameConstants.WORLD_WIDTH, y);
+            }
         }
     }
 
