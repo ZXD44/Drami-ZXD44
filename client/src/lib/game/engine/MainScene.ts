@@ -165,22 +165,31 @@ export class MainScene extends Phaser.Scene {
     private setupPlayer() {
         const centerX = GameConstants.WORLD_WIDTH / 2;
         const centerY = GameConstants.WORLD_HEIGHT / 2;
+        const isAdmin = this.room?.state?.players?.get(this.room?.sessionId)?.role === "admin";
 
         this.player = this.add.sprite(centerX, centerY, "player", 1)
             .setOrigin(0.5, 1)
             .setScale(1.75)
             .setDepth(300);
 
-        this.playerNameText = this.add.text(centerX, centerY - 60, this.username, {
-            color: GameConstants.COLORS.NAME_TEXT,
+        const displayName = isAdmin ? `⭐ ${this.username} ⭐` : this.username;
+        const textColor = isAdmin ? "#fde047" : GameConstants.COLORS.NAME_TEXT;
+        const strokeColor = isAdmin ? "#b45309" : "#000000";
+
+        this.playerNameText = this.add.text(centerX, centerY - 60, displayName, {
+            color: textColor,
             fontFamily: GameConstants.FONT,
             fontSize: "13px",
             fontStyle: 'bold',
-            stroke: "#000000",
+            stroke: strokeColor,
             strokeThickness: 3,
             align: "center",
             resolution: 3
         }).setOrigin(0.5, 1).setDepth(301);
+
+        if (isAdmin) {
+            this.playerNameText.setShadow(0, 2, "rgba(0,0,0,0.8)", 3, false, true);
+        }
 
         this.cameras.main.startFollow(this.player, true, 0.08, 0.08);
     }
@@ -230,16 +239,25 @@ export class MainScene extends Phaser.Scene {
                 .setOrigin(0.5, 1)
                 .setScale(1.75);
 
-            const otherName = this.add.text(serverPlayer.x, serverPlayer.y - 60, serverPlayer.username || `Player_${sessionId.slice(0, 4)}`, {
-                color: GameConstants.COLORS.OTHER_NAME_TEXT,
+            const isOtherAdmin = serverPlayer.role === "admin";
+            const otherDisplayName = isOtherAdmin ? `⭐ ${serverPlayer.username || `Player_${sessionId.slice(0, 4)}`} ⭐` : (serverPlayer.username || `Player_${sessionId.slice(0, 4)}`);
+            const otherTextColor = isOtherAdmin ? "#fde047" : GameConstants.COLORS.OTHER_NAME_TEXT;
+            const otherStrokeColor = isOtherAdmin ? "#b45309" : "#000000";
+
+            const otherName = this.add.text(serverPlayer.x, serverPlayer.y - 60, otherDisplayName, {
+                color: otherTextColor,
                 fontFamily: GameConstants.FONT,
                 fontSize: "12px",
                 fontStyle: "bold",
-                stroke: "#000000",
+                stroke: otherStrokeColor,
                 strokeThickness: 3,
                 align: "center",
                 resolution: 3
             }).setOrigin(0.5, 1);
+
+            if (isOtherAdmin) {
+                otherName.setShadow(0, 2, "rgba(0,0,0,0.8)", 3, false, true);
+            }
 
             this.otherPlayers.set(sessionId, { sprite: otherPlayer, nameText: otherName, lastDir: "down" });
 
