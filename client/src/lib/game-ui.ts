@@ -51,19 +51,22 @@ export const quests = writable<{
 }[]>([]);
 
 // ============================================
-// ทักษะ
+// ทักษะ (Life Skills & Combat จาก Drami-MMORPG)
 // ============================================
 export const skills = writable<{
+	id: string;
 	name: string;
+	description: string;
+	image: string;
 	level: number;
 	tone: string;
 	exp: number;
 	maxExp: number;
-}[]>([
-	{ name: "การต่อสู้ระยะประชิด", level: 0, tone: "green", exp: 0, maxExp: 50 },
-	{ name: "เก็บของป่า", level: 0, tone: "amber", exp: 0, maxExp: 50 },
-	{ name: "การขุดแร่", level: 0, tone: "stone", exp: 0, maxExp: 50 },
-	{ name: "การตกปลา", level: 0, tone: "teal", exp: 0, maxExp: 50 }
+}>([
+	{ id: "woodcutting", name: "ตัดไม้", description: "ทักษะการตัดไม้ รวบรวมฟืนและไม้เพื่อเพิ่มทักษะนี้", image: "/assets/items/woodcutting.png", level: 1, tone: "amber", exp: 0, maxExp: 100 },
+	{ id: "mining", name: "ทำเหมือง", description: "ทักษะการทำเหมือง ขุดแร่เพื่อเพิ่มทักษะนี้", image: "/assets/items/mining.png", level: 1, tone: "stone", exp: 0, maxExp: 100 },
+	{ id: "farming", name: "ทำฟาร์ม", description: "ทักษะการทำฟาร์ม รวบรวมผลไม้และผักเพื่อเพิ่มทักษะนี้", image: "/assets/items/harvest.png", level: 1, tone: "green", exp: 0, maxExp: 100 },
+	{ id: "combat", name: "การต่อสู้ระยะประชิด", description: "ทักษะการต่อสู้ กำจัดมอนสเตอร์เพื่อฝึกฝนร่างกาย", image: "/assets/items/resources-tree.png", level: 1, tone: "red", exp: 0, maxExp: 100 }
 ]);
 
 // ============================================
