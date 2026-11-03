@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import Icon from './components/Icon.svelte';
 	
 	let { username = "Adventurer", gender = "male" } = $props();
 	const dispatch = createEventDispatcher();
@@ -57,16 +58,16 @@
 	const classes = [
 		{ id: "knight", name: "Knight", nameTH: "อัศวิน",
 		  desc: "นักรบผู้สวมเกราะหนา เชี่ยวชาญการรบประชิดและปกป้องพันธมิตร",
-		  icon: "⚔️", color: "#8b2c2c" },
+		  iconName: "swords", color: "#8b2c2c" },
 		{ id: "rogue", name: "Rogue", nameTH: "โจร",
 		  desc: "ปรมาจารย์แห่งการลอบเร้น หลบหลีกศัตรูเพื่อโจมตีอย่างร้ายกาจ",
-		  icon: "🗡️", color: "#4c6e4b" },
+		  iconName: "swords", color: "#4c6e4b" },
 		{ id: "cleric", name: "Cleric", nameTH: "นักบวช",
 		  desc: "ผู้รักษาผู้ศรัทธา ใช้เวทมนตร์ศักดิ์สิทธิ์เยียวยาบาดแผลและปราบอสูร",
-		  icon: "✨", color: "#9da1aa" },
+		  iconName: "sparkles", color: "#9da1aa" },
 		{ id: "mage", name: "Mage", nameTH: "จอมเวท",
 		  desc: "นักวิชาการแห่งศาสตร์มืด บัญชาการร่ายเวทธาตุทำลายล้างศัตรู",
-		  icon: "🔮", color: "#2e4874" },
+		  iconName: "sparkles", color: "#2e4874" },
 	];
 
 	// ==================== STATE ====================
@@ -130,7 +131,7 @@
 		<!-- Header -->
 		<div class="ac-header">
 			<div class="ac-username-container">
-				<span class="ac-username-label">⚔️</span>
+				<span class="ac-username-label"><Icon name="swords" size={18} color="#f6d860" /></span>
 				<input type="text" class="ac-username-input" bind:value={username} placeholder="ตั้งชื่อตัวละคร" />
 			</div>
 		</div>
@@ -139,15 +140,14 @@
 			<!-- Left Column: Customization -->
 			<div class="ac-col-left">
 				{#each [
-					{ type: 'hair', icon: '💇', label: 'ทรงผม', idx: hairIndex, max: hairOptions.length, current: currentHair.name },
-					{ type: 'shirt', icon: '👔', label: 'เสื้อ', idx: shirtIndex, max: shirtOptions.length, current: currentShirt.name },
-					{ type: 'pants', icon: '👖', label: 'กางเกง', idx: pantsIndex, max: pantsOptions.length, current: currentPants.name },
-					{ type: 'shoes', icon: '👟', label: 'รองเท้า', idx: shoesIndex, max: shoesOptions.length, current: currentShoes.name },
+					{ type: 'hair', label: 'ทรงผม', idx: hairIndex, max: hairOptions.length, current: currentHair.name },
+					{ type: 'shirt', label: 'เสื้อ', idx: shirtIndex, max: shirtOptions.length, current: currentShirt.name },
+					{ type: 'pants', label: 'กางเกง', idx: pantsIndex, max: pantsOptions.length, current: currentPants.name },
+					{ type: 'shoes', label: 'รองเท้า', idx: shoesIndex, max: shoesOptions.length, current: currentShoes.name },
 				] as opt}
 					<div class="ac-toggle-row">
 						<button class="ac-arrow-btn" onclick={() => prev(opt.type)}>◀</button>
 						<div class="ac-toggle-label">
-							<span class="ac-label-icon">{opt.icon}</span>
 							<span class="ac-label-text">{opt.label}</span>
 							<span class="ac-label-counter">{opt.idx % opt.max + 1}/{opt.max}</span>
 						</div>
@@ -155,8 +155,8 @@
 					</div>
 				{/each}
 
-				<div class="ac-gender-badge">
-					{gender === 'male' ? '♂ เพศชาย' : '♀ เพศหญิง'}
+				<div class="ac-gender-badge" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+					<Icon name={gender === 'male' ? 'male' : 'female'} size={16} /> {gender === 'male' ? 'เพศชาย' : 'เพศหญิง'}
 				</div>
 			</div>
 
@@ -183,7 +183,7 @@
 			<div class="ac-col-right">
 				<div class="ac-class-info-box">
 					<div class="ac-class-badge" style="background: {activeClassObj.color};">
-						<span class="ac-class-icon">{activeClassObj.icon}</span>
+						<span class="ac-class-icon"><Icon name={activeClassObj.iconName} size={22} color="#fff" /></span>
 					</div>
 					<h3 class="ac-class-title">{activeClassObj.name}</h3>
 					<p class="ac-class-subtitle">{activeClassObj.nameTH}</p>
@@ -200,7 +200,7 @@
 							onclick={() => selectedClass = cls.id}
 							title={cls.nameTH}
 						>
-							{cls.icon}
+							<Icon name={cls.iconName} size={20} color="#fff" />
 						</div>
 					{/each}
 				</div>

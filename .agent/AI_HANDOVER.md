@@ -58,7 +58,11 @@ VITE_IMGBB_API_KEY="1aa357e65c7f52d080aa13859e6040ec"
 2. **เปลี่ยนสไปรท์ตัวละคร**: ลบโฟลเดอร์ LPC 1GB ทิ้ง และเปลี่ยนมาใช้สไปรท์คลาสสิก 32x32 (`player-sprite.png`, `other-player-sprite.png`) เบา โหลดไว คมชัด
 3. **เคอร์เซอร์ RPG โบราณ**: ใช้งาน `cursor-brown.cur`
 4. **ระบบควบคุม Mobile / iPad**: สร้าง [`VirtualJoystick.svelte`](client/src/lib/game/components/VirtualJoystick.svelte) บริเวณนิ้วโป้งซ้าย รองรับการสัมผัส 360 องศา และซ่อนอัตโนมัติบนคอมพิวเตอร์
-5. **Modern Vector UI**: ปลดระวางอีโมจิ เปลี่ยนมาใช้ไอคอน Vector SVG คมกริบผ่าน [`Icon.svelte`](client/src/lib/game/components/Icon.svelte)
+5. **Modern Vector UI (100% SVG Migration)**: ปลดระวางอีโมจิทั้งหมดในเกม เปลี่ยนมาใช้ไอคอน Vector SVG คมกริบผ่าน [`Icon.svelte`](client/src/lib/game/components/Icon.svelte) ครบทุกโมดูล:
+   - Navigation HUD & Main Menu (Quest, Skills, Party, Settings, Admin, Logout, Bag, Camera)
+   - Admin Panel (DashboardTab, PlayersTab, BroadcastTab, EditUserModal)
+   - Overlays & Popups (QuestLogPanel, InventoryPanel, PartyPanel, SkillPanel)
+   - NotificationSystem, PlayerHUD, MiniMap, Hotbar, AvatarCreator, Register page
 
 ---
 

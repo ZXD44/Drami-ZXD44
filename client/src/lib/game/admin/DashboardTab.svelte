@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { AdminStats } from "../admin/adminService";
+    import Icon from "../components/Icon.svelte";
 
     let { stats } = $props<{ stats: AdminStats }>();
 
@@ -11,28 +12,28 @@
 <div class="admin-tab-content fade-in">
     <div class="stats-grid">
         <div class="stat-card gold-border">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon"><Icon name="users" size={24} color="#f6d860" /></div>
             <div class="stat-info">
                 <span class="stat-label">ผู้เล่นทั้งหมด</span>
                 <span class="stat-value">{stats.totalUsers}</span>
             </div>
         </div>
         <div class="stat-card gold-border">
-            <div class="stat-icon">💰</div>
+            <div class="stat-icon"><Icon name="gold" size={24} color="#f6d860" /></div>
             <div class="stat-info">
                 <span class="stat-label">ทองรวมทั้งเซิร์ฟ</span>
                 <span class="stat-value gold">{stats.totalGold.toLocaleString()} G</span>
             </div>
         </div>
         <div class="stat-card gold-border">
-            <div class="stat-icon">💎</div>
+            <div class="stat-icon"><Icon name="diamond" size={24} color="#60a5fa" /></div>
             <div class="stat-info">
                 <span class="stat-label">เพชรรวมทั้งเซิร์ฟ</span>
                 <span class="stat-value" style="color: #60a5fa;">{stats.totalDiamonds?.toLocaleString() || 0} D</span>
             </div>
         </div>
         <div class="stat-card gold-border">
-            <div class="stat-icon">🌐</div>
+            <div class="stat-icon"><Icon name="ping" size={24} color="#4ade80" /></div>
             <div class="stat-info">
                 <span class="stat-label">สถานะระบบ</span>
                 <span class="stat-value status-online">ปกติ</span>

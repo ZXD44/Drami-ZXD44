@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getServerUrl } from '$lib/game/config';
+	import Icon from '$lib/game/components/Icon.svelte';
 
 	let particles: { left: string; delay: string; duration: string; size: string }[] = $state([]);
 	let gender = $state("male");
@@ -139,11 +140,11 @@
 						<div class="gender-selector">
 							<label class="gender-btn {gender === 'male' ? 'active' : ''}">
 								<input type="radio" value="male" bind:group={gender} name="gender">
-								<span title="ชาย">👦</span>
+								<span title="ชาย" style="display: flex; align-items: center; justify-content: center;"><Icon name="male" size={16} /></span>
 							</label>
 							<label class="gender-btn {gender === 'female' ? 'active' : ''}">
 								<input type="radio" value="female" bind:group={gender} name="gender">
-								<span title="หญิง">👧</span>
+								<span title="หญิง" style="display: flex; align-items: center; justify-content: center;"><Icon name="female" size={16} /></span>
 							</label>
 						</div>
 					</div>
@@ -166,7 +167,7 @@
 						<div class="input-wrapper">
 							<input type={showPassword ? 'text' : 'password'} id="reg-password" class="auth-input" placeholder="••••••••" required minlength="6" bind:value={password} />
 							<button type="button" class="password-toggle" onclick={() => showPassword = !showPassword}>
-								{showPassword ? '👁️‍🗨️' : '👁️'}
+								<Icon name={showPassword ? 'eye-off' : 'eye'} size={16} />
 							</button>
 						</div>
 					</div>

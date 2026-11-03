@@ -1,5 +1,6 @@
 <script lang="ts">
     import { playerSummary, hpRatio, mpRatio, staminaRatio, expRatio, hotbarSkills, selectedSlot } from "$lib/game-ui";
+    import Icon from "./Icon.svelte";
 
     let {
         showEmoji = $bindable(),
@@ -33,15 +34,11 @@
         <!-- Left: Chat & Emoji -->
         <div class="hotbar-side hotbar-left">
             <button class="hotbar-icon-btn" title="แชท (C)" onclick={() => togglePanel('chat')}>
-                💬
+                <Icon name="chat" size={16} />
                 <span class="hotbar-skill-key">C</span>
             </button>
             <button class="hotbar-icon-btn" title="อิโมจิ (V)" onclick={() => togglePanel('emoji')} class:hotbar-skill-active={showEmoji}>
-                {#if showEmoji}
-                    <div style="transform: scale(1.2);">😄</div>
-                {:else}
-                    😄
-                {/if}
+                <Icon name="sparkles" size={16} />
                 <span class="hotbar-skill-key">V</span>
             </button>
         </div>
@@ -70,7 +67,7 @@
         <!-- Right: Inventory, Menu, etc. -->
         <div class="hotbar-side hotbar-right" style="gap: 2px;">
             <button class="hotbar-bag-btn" title="กระเป๋า (B)" onclick={() => togglePanel('inventory')}>
-                🎒
+                <Icon name="inventory" size={16} />
                 <span class="hotbar-skill-key">B</span>
             </button>
             
@@ -80,7 +77,7 @@
             </button>
 
             <button class="hotbar-icon-btn" title="พาหนะ">
-                🐴
+                <Icon name="swords" size={16} />
             </button>
         </div>
     </div>

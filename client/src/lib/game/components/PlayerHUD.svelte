@@ -1,5 +1,6 @@
 <script lang="ts">
     import { playerSummary, hpRatio, mpRatio, expRatio } from "$lib/game-ui";
+    import Icon from "./Icon.svelte";
 </script>
 
 <!-- ============================================
@@ -28,12 +29,12 @@
      HUD: ซ้ายบน (ล่าง) – เงิน
      ============================================ -->
 <div id="game-gold" class="hud-gold">
-    <div class="gold-item" title="Gold">
-        <span>🪙</span>
+    <div class="gold-item" title="Gold" style="display: flex; align-items: center; gap: 4px;">
+        <Icon name="gold" size={14} color="#f6d860" />
         <span class="gold-text">{$playerSummary.gold.toLocaleString()}</span>
     </div>
-    <div class="gold-item" title="Diamonds">
-        <span>💎</span>
+    <div class="gold-item" title="Diamonds" style="display: flex; align-items: center; gap: 4px;">
+        <Icon name="diamond" size={14} color="#60a5fa" />
         <span class="diamond-text">{($playerSummary.diamonds || 0).toLocaleString()}</span>
     </div>
 </div>

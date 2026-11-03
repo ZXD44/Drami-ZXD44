@@ -1,4 +1,6 @@
 <script lang="ts">
+    import Icon from "../components/Icon.svelte";
+
     let { onBroadcast } = $props<{ onBroadcast: (msg: string) => Promise<void> }>();
     let broadcastMsg = $state("");
 
@@ -13,7 +15,7 @@
     <div class="broadcast-container">
         <div class="broadcast-hero">
             <div class="broadcast-title-row">
-                <span class="broadcast-icon-sm">📢</span>
+                <Icon name="horn" size={20} color="#f6d860" />
                 <h3 class="broadcast-title">ส่งประกาศเซิร์ฟเวอร์</h3>
             </div>
             <p class="broadcast-desc">ข้อความจะแสดงเป็นตัววิ่งบนหน้าจอผู้เล่นทุกคน</p>
@@ -23,8 +25,8 @@
             placeholder="พิมพ์ข้อความที่นี่..." 
             class="admin-textarea broadcast-textarea"
         ></textarea>
-        <button class="btn-primary-gold full-width broadcast-send-btn" onclick={handleSend}>
-            📡 ส่งประกาศทันที
+        <button class="btn-primary-gold full-width broadcast-send-btn" onclick={handleSend} style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <Icon name="send" size={18} /> ส่งประกาศทันที
         </button>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { User } from "../admin/adminService";
+    import Icon from "../components/Icon.svelte";
 
     let { users, onEdit, onBanToggle } = $props<{ 
         users: User[], 
@@ -24,7 +25,10 @@
                     <tr>
                         <td>
                             <div class="player-cell">
-                                <span class="p-name">{user.username} {user.isBanned ? '🚫' : ''}</span>
+                                <span class="p-name" style="display: inline-flex; align-items: center; gap: 4px;">
+                                    {user.username} 
+                                    {#if user.isBanned}<Icon name="ban" size={14} color="#f43f5e" />{/if}
+                                </span>
                             </div>
                         </td>
                         <td>
@@ -41,10 +45,14 @@
                         </td>
                         <td>
                             <div class="action-btn-group">
-                                <button class="action-mini extreme" onclick={() => onEdit(user, "advanced")} title="ข้อมูลส่วนตัว/บัญชี">!</button>
-                                <button class="action-mini edit" onclick={() => onEdit(user, "basic")} title="แก้ไขค่าพลังตัวละคร">⚙️</button>
+                                <button class="action-mini extreme" onclick={() => onEdit(user, "advanced")} title="ข้อมูลส่วนตัว/บัญชี">
+                                    <Icon name="key" size={13} />
+                                </button>
+                                <button class="action-mini edit" onclick={() => onEdit(user, "basic")} title="แก้ไขค่าพลังตัวละคร">
+                                    <Icon name="settings" size={13} />
+                                </button>
                                 <button class="action-mini {user.isBanned ? 'unban' : 'ban'}" onclick={() => onBanToggle(user)} title={user.isBanned ? 'ปลดแบน' : 'แบน'}>
-                                    {user.isBanned ? '✔️' : '🚫'}
+                                    <Icon name={user.isBanned ? 'check' : 'ban'} size={13} />
                                 </button>
                             </div>
                         </td>

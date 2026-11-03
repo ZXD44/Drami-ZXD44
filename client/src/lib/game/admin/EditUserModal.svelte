@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { User } from "../admin/adminService";
+    import Icon from "../components/Icon.svelte";
 
     let { 
         user, 
@@ -44,11 +45,11 @@
 <div class="admin-modal-backdrop">
     <div class="admin-edit-modal fade-in">
         <div class="modal-header">
-            <h4>
+            <h4 style="display: flex; align-items: center; gap: 8px;">
                 {#if mode === 'advanced'}
-                    🔐 จัดการบัญชี: {user.username}
+                    <Icon name="key" size={18} color="#f6d860" /> จัดการบัญชี: {user.username}
                 {:else}
-                    🛠️ ปรับค่าพลัง: {user.username}
+                    <Icon name="settings" size={18} color="#f6d860" /> ปรับค่าพลัง: {user.username}
                 {/if}
             </h4>
             <button class="btn-close-modal" onclick={onClose}>✕</button>
@@ -77,32 +78,32 @@
             {:else}
                 <div class="admin-field-grid">
                     <div class="field-item">
-                        <label for="admin-role">🔑 ระดับสิทธิ์ (Role)</label>
+                        <label for="admin-role" style="display: flex; align-items: center; gap: 6px;"><Icon name="key" size={14} color="#f6d860" /> ระดับสิทธิ์ (Role)</label>
                         <select id="admin-role" bind:value={editRole} class="admin-select">
                             <option value="member">MEMBER</option>
                             <option value="admin">ADMIN</option>
                         </select>
                     </div>
                     <div class="field-item">
-                        <label for="admin-level">⚔️ เลเวล</label>
+                        <label for="admin-level" style="display: flex; align-items: center; gap: 6px;"><Icon name="swords" size={14} color="#f6d860" /> เลเวล</label>
                         <input id="admin-level" type="number" bind:value={editLevel} class="admin-input" />
                     </div>
                     <div class="field-item">
-                        <label for="admin-gold">💰 ทอง (Gold)</label>
+                        <label for="admin-gold" style="display: flex; align-items: center; gap: 6px;"><Icon name="gold" size={14} color="#f6d860" /> ทอง (Gold)</label>
                         <input id="admin-gold" type="number" bind:value={editGold} class="admin-input gold-text" />
                     </div>
                     <div class="field-item">
-                        <label for="admin-diamonds">💎 เพชร (Diamonds)</label>
+                        <label for="admin-diamonds" style="display: flex; align-items: center; gap: 6px;"><Icon name="diamond" size={14} color="#60a5fa" /> เพชร (Diamonds)</label>
                         <input id="admin-diamonds" type="number" bind:value={editDiamonds} class="admin-input diamond-text" />
                     </div>
                     <div class="field-item full-span">
-                        <label for="admin-exp">✨ ค่าประสบการณ์ (EXP)</label>
+                        <label for="admin-exp" style="display: flex; align-items: center; gap: 6px;"><Icon name="exp" size={14} color="#a78bfa" /> ค่าประสบการณ์ (EXP)</label>
                         <input id="admin-exp" type="number" bind:value={editExp} class="admin-input" />
                     </div>
                 </div>
 
                 <div class="item-gift-box">
-                    <label for="admin-gift">🎁 เสกไอเทมเข้ากระเป๋า</label>
+                    <label for="admin-gift" style="display: flex; align-items: center; gap: 6px;"><Icon name="gift" size={14} color="#f43f5e" /> เสกไอเทมเข้ากระเป๋า</label>
                     <div class="gift-row">
                         <select id="admin-gift" bind:value={selectedItemId} class="admin-select flex-1">
                             <option value="">— เลือกคลังไอเทม —</option>

@@ -1,10 +1,12 @@
 <script lang="ts">
     import { playerSummary, playerPos } from "$lib/game-ui";
+    import Icon from "./Icon.svelte";
 </script>
 
 <div class="hud-minimap">
-    <div class="minimap-header">
-        <span>🗺️ แผนที่: {$playerSummary.location}</span>
+    <div class="minimap-header" style="display: flex; align-items: center; gap: 6px;">
+        <Icon name="map" size={14} color="#f6d860" />
+        <span>แผนที่: {$playerSummary.location}</span>
     </div>
     <div class="minimap-content" style="position: relative; overflow: hidden;">
         <!-- แผนที่ย่อ (Map Container) เลื่อนตามตำแหน่งผู้เล่นสวนทางกัน -->
