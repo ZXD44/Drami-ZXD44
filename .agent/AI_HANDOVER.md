@@ -64,6 +64,18 @@ VITE_IMGBB_API_KEY="1aa357e65c7f52d080aa13859e6040ec"
    - Overlays & Popups (QuestLogPanel, InventoryPanel, PartyPanel, SkillPanel)
    - NotificationSystem, PlayerHUD, MiniMap, Hotbar, AvatarCreator, Register page
 
+### หมวดที่ 4: ระบบควบคุมโลก & แอดมินเรียลไทม์ (Live World Orchestrator)
+1. **ระบบรีโหลดหน้าเว็บของผู้เล่นทุกคน (Global Force Reload)**:
+   - สั่งผ่าน Endpoint `/api/admin/reload-all` หรือข้อความ `admin_reload_all` จากแผงควบคุมแอดมิน
+   - ไคลเอนต์ทุกคนจะได้รับ Event `force_reload` พร้อมแจ้งเตือน Notification แล้วสั่ง `window.location.reload()` ทันที
+2. **ระบบบันทึกจุดเกิดของผู้เล่น (Spawn Coordinates Persistence)**:
+   - เพิ่มคอลัมน์ `spawnX`, `spawnY` ในตาราง `User` และซิงค์ลง `@type("number") spawnX`, `spawnY` ใน Colyseus `Player`
+   - แอดมินสามารถคลิก "ตั้งพิกัดปัจจุบันเป็นจุดเกิด" ได้แบบเรียลไทม์ และตัวละครจะเกิดตรงจุดนั้นเสมอ
+3. **ระบบจัดการแมพและเอนทิตี ([`MapEditorTab.svelte`](client/src/lib/game/admin/MapEditorTab.svelte))**:
+   - แท็บ "จัดการแมพ/จุดเกิด" ใน Admin Panel
+   - ปรับแต่งและตรวจสอบขอบเขตแมพ (Width/Height Px & Tiles)
+   - วางจุดเกิดมอนสเตอร์, NPC เควส, ทรัพยากร (Resource Nodes), และประตูวาร์ป (Teleport Portal) ตรงตำแหน่งพิกัดที่ผู้เล่นยืนอยู่พร้อมระบบบันทึกเอนทิตี
+
 ---
 
 ## 4. แผนงานที่ต้องทำต่อทันที (Next Action Items for AI)
