@@ -66,6 +66,8 @@
                         <span class="channel">[ท้องถิ่น]</span>{line.replace('[ท้องถิ่น]', '')}
                     {:else if line.includes('[ระบบ]')}
                         <span class="system">{line}</span>
+                    {:else if line.includes('⭐')}
+                        <span style="color: #fde047; font-weight: bold; text-shadow: 0 0 5px rgba(253, 224, 71, 0.5);">{line}</span>
                     {:else}
                         {line}
                     {/if}
