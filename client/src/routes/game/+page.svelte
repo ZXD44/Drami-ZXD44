@@ -158,7 +158,17 @@
 <div class="notifications-container">
 	{#each $notifications as n (n.id)}
 		<div class="notif-toast notif-{n.type} fade-in-right">
-			<div class="notif-icon">{n.type === 'success' ? '✨' : n.type === 'error' ? '❌' : n.type === 'warning' ? '⚠️' : '🔔'}</div>
+			<div class="notif-icon">
+				{#if n.type === 'success'}
+					<Icon name="check" size={16} color="#4ade80" />
+				{:else if n.type === 'error'}
+					<Icon name="close" size={16} color="#f43f5e" />
+				{:else if n.type === 'warning'}
+					<Icon name="alert" size={16} color="#fbbf24" />
+				{:else}
+					<Icon name="info" size={16} color="#60a5fa" />
+				{/if}
+			</div>
 			<div class="notif-content">{n.message}</div>
 		</div>
 	{/each}
@@ -166,7 +176,7 @@
 
 {#if $activeAnnouncement}
 	<div class="announcement-banner fade-in">
-		<div class="banner-icon">📢</div>
+		<div class="banner-icon"><Icon name="horn" size={18} color="#f6d860" /></div>
 		<div class="marquee-wrapper"><div class="marquee-content">{$activeAnnouncement}</div></div>
 	</div>
 {/if}
@@ -202,8 +212,8 @@
 {#if showSettings}
 	<div class="panel-overlay fade-in panel-settings-premium">
 		<div class="panel-overlay-header settings-header-gold">
-			<div class="settings-title-group">
-				<span class="settings-icon-glow">⚙️</span>
+			<div class="settings-title-group" style="display: flex; align-items: center; gap: 8px;">
+				<Icon name="settings" size={20} color="#f6d860" />
 				<h3>ตั้งค่าระบบ</h3>
 			</div>
 			<button class="panel-overlay-close-btn" onclick={() => showSettings = false}>✕</button>
@@ -211,14 +221,14 @@
 		<div class="panel-overlay-body settings-body-centered">
 			<div class="settings-container-grid">
 				{#each [
-					{ label: 'เสียงเพลงประกอบ', key: 'musicVolume', icon: '🎵', min: 0, max: 100, step: 1, suffix: '%' },
-					{ label: 'เอฟเฟกต์เสียง', key: 'sfxVolume', icon: '🔊', min: 0, max: 100, step: 1, suffix: '%' },
-					{ label: 'ระยะซูมกล้องหน้าจอ', key: 'cameraZoom', icon: '🔍', min: 1, max: 4, step: 0.1, suffix: 'x' }
+					{ label: 'เสียงเพลงประกอบ', key: 'musicVolume', icon: 'music', min: 0, max: 100, step: 1, suffix: '%' },
+					{ label: 'เอฟเฟกต์เสียง', key: 'sfxVolume', icon: 'sound', min: 0, max: 100, step: 1, suffix: '%' },
+					{ label: 'ระยะซูมกล้องหน้าจอ', key: 'cameraZoom', icon: 'zoom', min: 1, max: 4, step: 0.1, suffix: 'x' }
 				] as item}
 					<div class="setting-card-premium">
 						<div class="setting-info-top">
 							<div class="setting-label-main">
-								<span class="setting-icon-mini">{item.icon}</span>
+								<span class="setting-icon-mini" style="display: flex; align-items: center;"><Icon name={item.icon} size={16} color="#f6d860" /></span>
 								<span class="setting-text">{item.label}</span>
 							</div>
 							<div class="setting-value-display">
@@ -252,14 +262,18 @@
 			<div class="menu-profile-hero">
 				<button class="profile-avatar-lg" onclick={() => fileInput.click()} disabled={isUploading} title="เปลี่ยนรูปโปรไฟล์">
 					<img src={$playerSummary.avatar} alt="Avatar" class="profile-avatar-img" />
-					<div class="avatar-hover-overlay">📷 เปลี่ยนรูป</div>
+					<div class="avatar-hover-overlay" style="display: flex; align-items: center; justify-content: center; gap: 4px;">
+						<Icon name="camera" size={14} /> เปลี่ยนรูป
+					</div>
 					{#if isUploading}<div class="avatar-loading-overlay"><div class="spinner"></div></div>{/if}
 					<div class="profile-level-badge">Lv.{$playerSummary.level}</div>
 				</button>
 				<h4 class="profile-hero-name">{$playerSummary.name}</h4>
 				<div class="profile-hero-title">{$playerSummary.title}</div>
 				{#if $playerSummary.clan}
-					<div class="profile-hero-guild">🛡️ {$playerSummary.clan}</div>
+					<div class="profile-hero-guild" style="display: flex; align-items: center; justify-content: center; gap: 4px;">
+						<Icon name="shield" size={14} color="#f6d860" /> {$playerSummary.clan}
+					</div>
 				{/if}
 			</div>
 			<input type="file" accept="image/*" bind:this={fileInput} onchange={onAvatarUpload} style="display: none;" />
@@ -323,7 +337,7 @@
 	<div class="game-boot-overlay error-overlay fade-in">
 		<div class="error-panel">
 			<div class="error-header">
-				<div class="error-icon-pulse">📡</div>
+				<div class="error-icon-pulse"><Icon name="ping" size={28} color="#f43f5e" /></div>
 				<h2 class="error-title">ขาดการเชื่อมต่อ</h2>
 			</div>
 			<div class="error-content">

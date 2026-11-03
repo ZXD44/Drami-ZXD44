@@ -1,17 +1,21 @@
 <script lang="ts">
     import { quests } from "$lib/game-ui";
+    import Icon from "../Icon.svelte";
     let { showQuests = $bindable() } = $props<{ showQuests: boolean }>();
 </script>
 
 <div class="panel-overlay fade-in panel-mobile">
 			<div class="panel-overlay-header">
-				<h3>📜 บันทึกเควส</h3>
+				<h3 style="display: flex; align-items: center; gap: 8px;">
+					<Icon name="quest" size={18} color="#f6d860" /> บันทึกเควส
+				</h3>
 				<button class="panel-overlay-close" onclick={() => showQuests = false}>✕</button>
 			</div>
 			<div class="panel-overlay-body">
 				{#if $quests.length === 0}
-					<div class="empty-state">
-						📜 ยังไม่มีเควส<br/>
+					<div class="empty-state" style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+						<Icon name="quest" size={32} color="#94a3b8" />
+						ยังไม่มีเควส<br/>
 						<span>พูดคุยกับ NPC เพื่อรับเควส!</span>
 					</div>
 				{:else}
@@ -19,12 +23,15 @@
 						{#each $quests as quest}
 							<div class="quest-item" style="{quest.completed ? 'opacity: 0.5;' : ''}">
 								<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
-									<span style="font-weight: 700; color: var(--text-light); font-size: 0.85rem;">{quest.completed ? '✅' : '📌'} {quest.name}</span>
+									<span style="font-weight: 700; color: var(--text-light); font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+										<Icon name={quest.completed ? "check" : "pin"} size={14} color={quest.completed ? "#4ade80" : "#f6d860"} /> 
+										{quest.name}
+									</span>
 									<span class="quest-progress">{quest.progress}</span>
 								</div>
 								<p style="margin-top: 0.3rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">{quest.description}</p>
-								<div style="margin-top: 0.3rem; font-family: 'VT323', monospace; font-size: 0.85rem; color: var(--green-bright);">
-									⭐ รางวัล: {quest.reward}
+								<div style="margin-top: 0.3rem; font-family: 'VT323', monospace; font-size: 0.85rem; color: var(--green-bright); display: flex; align-items: center; gap: 4px;">
+									<Icon name="sparkles" size={12} color="var(--green-bright)" /> รางวัล: {quest.reward}
 								</div>
 							</div>
 						{/each}

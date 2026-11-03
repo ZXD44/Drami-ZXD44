@@ -1,12 +1,15 @@
 <script lang="ts">
     import { party } from "$lib/game-ui";
+    import Icon from "../Icon.svelte";
     let { showParty = $bindable(), activePartyTab = $bindable() } = $props<{ showParty: boolean; activePartyTab: string }>();
 </script>
 
 <div class="panel-overlay fade-in panel-mobile">
 			<div class="panel-overlay-header" style="flex-direction: column; align-items: stretch; gap: 0.5rem; padding-bottom: 0;">
 				<div style="display: flex; justify-content: space-between; align-items: center;">
-					<h3>👥 สังคม</h3>
+					<h3 style="display: flex; align-items: center; gap: 8px;">
+						<Icon name="party" size={18} color="#f6d860" /> สังคม
+					</h3>
 					<button class="panel-overlay-close" onclick={() => showParty = false}>✕</button>
 				</div>
 				<div class="chat-tab-bar" style="border-bottom: none; margin-bottom: 0;">
@@ -17,8 +20,9 @@
 			<div class="panel-overlay-body" style="padding-top: 0.8rem; border-top: 1px solid var(--panel-border);">
 				{#if activePartyTab === 'party'}
 					{#if $party.length === 0}
-						<div class="empty-state">
-							👤 ยังไม่มีสมาชิก<br/>
+						<div class="empty-state" style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+							<Icon name="users" size={32} color="#94a3b8" />
+							ยังไม่มีสมาชิก<br/>
 							<span>ชวนเพื่อนเข้าปาร์ตี้!</span>
 						</div>
 					{:else}
@@ -40,8 +44,9 @@
 						</div>
 					{/if}
 				{:else}
-					<div class="empty-state">
-						🤝 ยังไม่มีเพื่อน<br/>
+					<div class="empty-state" style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+						<Icon name="party" size={32} color="#94a3b8" />
+						ยังไม่มีเพื่อน<br/>
 						<span>ยังไม่ได้เพิ่มใครเป็นเพื่อนในขณะนี้!</span>
 					</div>
 				{/if}

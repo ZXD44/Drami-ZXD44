@@ -2,14 +2,7 @@
     import { notifications } from './game-ui';
     import { flip } from 'svelte/animate';
     import { fly } from 'svelte/transition';
-
-    const icons = {
-        general: '⌨️',
-        info: 'ℹ️',
-        success: '✅',
-        error: '🚨',
-        warning: '⚠️'
-    };
+    import Icon from './game/components/Icon.svelte';
 </script>
 
 <div class="notifications-container">
@@ -22,7 +15,17 @@
             <div class="notif-accent"></div>
             <div class="notif-content">
                 <div class="notif-header">
-                    <span class="notif-icon">{icons[notif.type]}</span>
+                    <span class="notif-icon">
+                        {#if notif.type === 'success'}
+                            <Icon name="check" size={16} color="#4ade80" />
+                        {:else if notif.type === 'error'}
+                            <Icon name="alert" size={16} color="#f43f5e" />
+                        {:else if notif.type === 'warning'}
+                            <Icon name="alert" size={16} color="#fbbf24" />
+                        {:else}
+                            <Icon name="info" size={16} color="#60a5fa" />
+                        {/if}
+                    </span>
                     <span class="notif-label">{notif.type.toUpperCase()}</span>
                 </div>
                 <div class="notif-message">{notif.message}</div>
