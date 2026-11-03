@@ -12,6 +12,7 @@ export const requireAdmin = async (req: express.Request, res: express.Response, 
         const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
         const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
         if (!user || (user as any).role !== "admin") return res.status(403).json({ error: "Forbidden" });
+        (req as any).adminUser = user;
         next();
     } catch (e) {
         return res.status(401).json({ error: "Unauthorized" });

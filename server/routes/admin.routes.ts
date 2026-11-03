@@ -146,17 +146,40 @@ router.post("/set-spawn", requireAdmin, async (req, res) => {
     try {
         const targetX = Math.round(Number(x));
         const targetY = Math.round(Number(y));
+        const adminId = (req as any).adminUser?.id;
+        const targetUserId = userId || adminId;
         
-        if (userId) {
+        if (targetUserId) {
             await prisma.user.update({
-                where: { id: userId },
+                where: { id: targetUserId },
+                data: { spawnX: targetX, spawnY: targetY } as any
+            });
+            console.log(`[Admin] Spawn saved for user ${targetUserId}: (${targetX}, ${targetY})`);
+        } else {
+            // Fallback: update all admin accounts or ZirconX
+            await prisma.user.updateMany({
+                where: { role: "admin" },
                 data: { spawnX: targetX, spawnY: targetY } as any
             });
         }
 
+        // Also sync live room player coordinates if connected
+        GameRoom.activeRooms.forEach(room => {
+            const state = room.state as any;
+            if (state && state.players) {
+                for (let player of state.players.values()) {
+                    if (player.role === "admin" || (targetUserId && player.userId === targetUserId)) {
+                        player.spawnX = targetX;
+                        player.spawnY = targetY;
+                    }
+                }
+            }
+        });
+
         res.json({ ok: true, spawnX: targetX, spawnY: targetY });
-    } catch (e) {
-        res.status(500).json({ error: "Failed to update spawn" });
+    } catch (e: any) {
+        console.error("Failed to update spawn:", e);
+        res.status(500).json({ error: e?.message || "Failed to update spawn" });
     }
 });
 
