@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drami Online - 3D Logo Preview</title>
+    <!-- โหลด Font Pixel -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-bright: #ffd700;
+            --gold-soft: #ffc250;
+            --gold-dark: #b8860b;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1a1a2e; /* พื้นหลังสีเข้มเพื่อให้โลโก้ทองเด่น */
+            background-image: radial-gradient(circle at center, #2a2a4e 0%, #1a1a2e 100%);
+            overflow: hidden;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* กล่องคลุมโลโก้ */
+        .game-logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* เพิ่มแอนิเมชั่นลอยขึ้นลง */
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        /* ตัวโลโก้หลัก */
+        .game-logo-text {
+            font-size: 5rem; /* กำหนดขนาดใหญ่ให้เห็นชัดๆ */
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            
+            /* ลงสีแบบไล่เฉดให้ดูเป็นโลหะมันวาว */
+            background: linear-gradient(to bottom,
+                #ffffff 15%,
+                var(--gold-bright) 45%,
+                var(--gold-soft) 55%,
+                var(--gold-dark) 95%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            /* ใส่เงา 3 ชั้นเพื่อความมีมิติ */
+            filter:
+                drop-shadow(0 4px 0 #8a6d1b)          /* ขอบ 3D ด้านล่างแบบคมๆ */
+                drop-shadow(0 8px 0 rgba(0, 0, 0, 0.4)) /* เงาดำให้ดูมีมิติลึก */
+                drop-shadow(0 0 25px rgba(240, 192, 64, 0.4)); /* แสงเรืองรอง (Glow) */
+        }
+
+        /* ข้อความย่อยด้านล่างโลโก้ */
+        .game-logo-subtext {
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #8c9bad;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            margin-top: -15px; /* ดึงคำว่า ONLINE ให้ขยับเข้าใกล้ DRAMI แบบพอดี */
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        /* แอนิเมชันลอย */
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-12px) scale(1.02);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-logo-container">
+        <h1 class="game-logo-text">DRAMI</h1>
+        <div class="game-logo-subtext">ONLINE</div>
+    </div>
+
+</body>
+</html>

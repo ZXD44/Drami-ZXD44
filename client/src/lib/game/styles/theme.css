@@ -1,0 +1,32 @@
+/* === GLOBAL THEME AND ANIMATIONS === */
+
+:global(.side-btn-active) {
+	border-color: var(--gold-bright) !important;
+	background: rgba(240,192,64,0.15) !important;
+	box-shadow: 0 0 12px rgba(240,192,64,0.2);
+}
+
+:global(.hotbar-skill-active) {
+	border-color: var(--gold-bright) !important;
+	background: rgba(240,192,64,0.2) !important;
+	box-shadow: 0 0 10px rgba(240,192,64,0.3);
+}
+
+.fade-in-right {
+	animation: slide-in-right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slide-in-right {
+	from { transform: translateX(50px); opacity: 0; }
+	to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes spinQuest {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+	0%, 100% { opacity: 0.15; transform: scale(0.9); }
+	50% { opacity: 0.4; transform: scale(1.1); }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "Cane",
+  "preview_row": 1,
+  "preview_column": 8,
+  "layer_1": {
+    "zPos": 140,
+    "male": "male/weapon/polearm/cane/",
+    "muscular": "male/weapon/polearm/cane/",
+    "female": "female/weapon/polearm/cane/",
+    "pregnant": "female/weapon/polearm/cane/"
+  },
+  "variants": [
+    "cane"
+  ],
+  "animations": [
+    "walk",
+    "thrust"
+  ],
+  "credits": [
+    {
+      "file": "shared/weapon/polearm/cane",
+      "notes": "",
+      "authors": [
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-gentleman"
+      ]
+    }
+  ],
+  "path": [
+    "weapons",
+    "polearm",
+    "weapon_polearm_cane"
+  ],
+  "type_name": "weapon"
+}

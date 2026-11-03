@@ -1,0 +1,94 @@
+{
+  "name": "Long Topknot",
+  "layer_1": {
+    "zPos": 128,
+    "male": "shared/hair/extensions/ponytails/topknot_long/adult/fg/",
+    "muscular": "shared/hair/extensions/ponytails/topknot_long/adult/fg/",
+    "female": "shared/hair/extensions/ponytails/topknot_long/adult/fg/",
+    "pregnant": "shared/hair/extensions/ponytails/topknot_long/adult/fg/",
+    "teen": "shared/hair/extensions/ponytails/topknot_long/adult/fg/",
+    "child": "child/hair/extensions/ponytails/topknot_long/fg/"
+  },
+  "layer_2": {
+    "zPos": 9,
+    "male": "shared/hair/extensions/ponytails/topknot_long/adult/bg/",
+    "muscular": "shared/hair/extensions/ponytails/topknot_long/adult/bg/",
+    "female": "shared/hair/extensions/ponytails/topknot_long/adult/bg/",
+    "pregnant": "shared/hair/extensions/ponytails/topknot_long/adult/bg/",
+    "teen": "shared/hair/extensions/ponytails/topknot_long/adult/bg/",
+    "child": "child/hair/extensions/ponytails/topknot_long/bg/"
+  },
+  "variants": [
+    "blonde",
+    "ash",
+    "sandy",
+    "platinum",
+    "strawberry",
+    "redhead",
+    "ginger",
+    "carrot",
+    "chestnut",
+    "light brown",
+    "dark brown",
+    "black",
+    "raven",
+    "dark gray",
+    "gray",
+    "white",
+    "red",
+    "orange",
+    "gold",
+    "green",
+    "blue",
+    "navy",
+    "violet",
+    "purple",
+    "pink",
+    "rose"
+  ],
+  "animations": [
+    "spellcast",
+    "thrust",
+    "walk",
+    "slash",
+    "shoot",
+    "hurt",
+    "watering",
+    "idle",
+    "jump",
+    "run",
+    "sit",
+    "emote",
+    "climb",
+    "combat",
+    "1h_slash",
+    "1h/backslash",
+    "1h_halfslash"
+  ],
+  "credits": [
+    {
+      "file": "shared/hair/extensions/ponytails/topknot_long",
+      "notes": "",
+      "authors": [
+        "JaidynReiman"
+      ],
+      "licenses": [
+        "OGA-BY 3.0+",
+        "CC-BY 3.0+",
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-1-hairstyle-2-hair-extensions-3-previously-unofficially-released-hairstyles"
+      ]
+    }
+  ],
+  "path": [
+    "head",
+    "hair",
+    "hair extensions",
+    "ponytails",
+    "hairext_topknot_long"
+  ],
+  "type_name": "ponytail"
+}

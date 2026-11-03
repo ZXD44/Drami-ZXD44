@@ -1,0 +1,84 @@
+{
+  "name": "Halberd",
+  "preview_row": 0,
+  "preview_column": 0,
+  "layer_1": {
+    "zPos": 8,
+    "male": "shared/weapon/polearm/halberd/behind/",
+    "muscular": "shared/weapon/polearm/halberd/behind/",
+    "female": "shared/weapon/polearm/halberd/behind/",
+    "pregnant": "shared/weapon/polearm/halberd/behind/"
+  },
+  "layer_2": {
+    "zPos": 140,
+    "male": "shared/weapon/polearm/halberd/",
+    "muscular": "shared/weapon/polearm/halberd/",
+    "female": "shared/weapon/polearm/halberd/",
+    "pregnant": "shared/weapon/polearm/halberd/"
+  },
+  "layer_3": {
+    "custom_animation": "thrust_oversize",
+    "zPos": 9,
+    "male": "shared/weapon/polearm/halberd/attack_thrust/behind/",
+    "muscular": "shared/weapon/polearm/halberd/attack_thrust/behind/",
+    "female": "shared/weapon/polearm/halberd/attack_thrust/behind/",
+    "pregnant": "shared/weapon/polearm/halberd/attack_thrust/behind/"
+  },
+  "layer_4": {
+    "custom_animation": "thrust_oversize",
+    "zPos": 150,
+    "male": "shared/weapon/polearm/halberd/attack_thrust/",
+    "muscular": "shared/weapon/polearm/halberd/attack_thrust/",
+    "female": "shared/weapon/polearm/halberd/attack_thrust/",
+    "pregnant": "shared/weapon/polearm/halberd/attack_thrust/"
+  },
+  "layer_5": {
+    "custom_animation": "slash_oversize",
+    "zPos": 8,
+    "male": "shared/weapon/polearm/halberd/attack_slash/behind/",
+    "muscular": "shared/weapon/polearm/halberd/attack_slash/behind/",
+    "female": "shared/weapon/polearm/halberd/attack_slash/behind/",
+    "pregnant": "shared/weapon/polearm/halberd/attack_slash/behind/"
+  },
+  "layer_6": {
+    "custom_animation": "slash_oversize",
+    "zPos": 150,
+    "male": "shared/weapon/polearm/halberd/attack_slash/",
+    "muscular": "shared/weapon/polearm/halberd/attack_slash/",
+    "female": "shared/weapon/polearm/halberd/attack_slash/",
+    "pregnant": "shared/weapon/polearm/halberd/attack_slash/"
+  },
+  "variants": [
+    "halberd"
+  ],
+  "animations": [
+    "walk",
+    "hurt",
+    "thrust_oversize",
+    "slash_oversize"
+  ],
+  "credits": [
+    {
+      "file": "shared/weapon/polearm/halberd",
+      "notes": "",
+      "authors": [
+        "Benjamin K. Smith (BenCreating)",
+        "bluecarrot16",
+        "Sander Frenken (castelonia)"
+      ],
+      "licenses": [
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-medieval-weapons"
+      ]
+    }
+  ],
+  "path": [
+    "weapons",
+    "polearm",
+    "weapon_polearm_halberd"
+  ],
+  "type_name": "weapon"
+}

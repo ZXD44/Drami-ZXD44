@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  role      String   @default("member")
+  level     Int      @default(1)
+  exp       Int      @default(0)
+  gold      Int      @default(0)
+  diamonds  Int      @default(0)
+  avatar    String?  @default("/avatars/default.png")
+  isBanned  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  inventory Inventory[]
+}
+
+model Item {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  type        String   // "weapon", "armor", "consumable", "material"
+  rarity      String   @default("common")
+  stats       String?  // e.g., '{"attack": 10, "defense": 0}'
+  
+  inventories Inventory[]
+}
+
+model Inventory {
+  id        String  @id @default(uuid())
+  userId    String
+  itemId    String
+  amount    Int     @default(1)
+  isEquipped Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id])
+  item Item @relation(fields: [itemId], references: [id])
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Necklace",
+  "priority": 100,
+  "layer_1": {
+    "zPos": 80,
+    "male": "female/neck/necklace/",
+    "muscular": "female/neck/necklace/",
+    "female": "female/neck/necklace/",
+    "teen": "female/neck/necklace/",
+    "pregnant": "female/neck/necklace/"
+  },
+  "variants": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold",
+    "pirate"
+  ],
+  "animations": [
+    "spellcast",
+    "thrust",
+    "walk",
+    "slash",
+    "shoot",
+    "hurt",
+    "idle"
+  ],
+  "credits": [
+    {
+      "file": "shared/neck/necklace",
+      "notes": "extra animations by bluecarrot16",
+      "authors": [
+        "bluecarrot16",
+        "Luke Mehl"
+      ],
+      "licenses": [
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/female-mage-clothing-set",
+        "http://opengameart.org/content/lpc-clothing-updates"
+      ]
+    }
+  ],
+  "path": [
+    "head",
+    "neck",
+    "neck_necklace"
+  ],
+  "type_name": "necklace"
+}

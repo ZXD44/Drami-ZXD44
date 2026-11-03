@@ -1,0 +1,43 @@
+{
+  "name": "Stud earrings",
+  "layer_1": {
+    "zPos": 115,
+    "male": "male/facial/earrings/stud/",
+    "muscular": "male/facial/earrings/stud/",
+    "female": "female/facial/earrings/stud/",
+    "pregnant": "female/facial/earrings/stud/",
+    "teen": "female/facial/earrings/stud/"
+  },
+  "variants": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ],
+  "credits": [
+    {
+      "file": "shared/facial/earrings/stud",
+      "notes": "",
+      "authors": [
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-jewelry"
+      ]
+    }
+  ],
+  "path": [
+    "head",
+    "accessories",
+    "earrings",
+    "facial_earrings_stud"
+  ],
+  "type_name": "earrings"
+}

@@ -1,0 +1,28 @@
+/* === ADMIN PANEL CUSTOM STYLES === */
+
+.btn-admin-command {
+	width: 100%;
+	padding: 0.6rem;
+	background: rgba(74, 222, 128, 0.15);
+	border: 2px solid rgba(74, 222, 128, 0.5);
+	color: #4ade80;
+	border-radius: 8px;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 0.75rem;
+	cursor: pointer;
+	transition: all 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin: 0.4rem 0;
+}
+
+.btn-admin-command:hover {
+	background: rgba(74, 222, 128, 0.2);
+	border-color: #4ade80;
+	box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+	transform: scale(1.02);
+}

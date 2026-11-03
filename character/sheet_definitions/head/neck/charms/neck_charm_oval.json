@@ -1,0 +1,52 @@
+{
+  "name": "Oval Charm",
+  "layer_1": {
+    "zPos": 81,
+    "male": "male/neck/charm/oval/",
+    "muscular": "male/neck/charm/oval/",
+    "female": "female/neck/charm/oval/",
+    "teen": "female/neck/charm/oval/",
+    "pregnant": "female/neck/charm/oval/"
+  },
+  "variants": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ],
+  "animations": [
+    "spellcast",
+    "thrust",
+    "walk",
+    "slash",
+    "shoot",
+    "hurt",
+    "idle"
+  ],
+  "credits": [
+    {
+      "file": "shared/neck/charm",
+      "notes": "",
+      "authors": [
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-jewelry"
+      ]
+    }
+  ],
+  "path": [
+    "head",
+    "neck",
+    "necklace charms",
+    "neck_charm_oval"
+  ],
+  "type_name": "charm"
+}

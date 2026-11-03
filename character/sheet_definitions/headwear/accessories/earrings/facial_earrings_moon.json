@@ -1,0 +1,43 @@
+{
+  "name": "Moon earrings",
+  "layer_1": {
+    "zPos": 115,
+    "male": "male/facial/earrings/moon/",
+    "muscular": "male/facial/earrings/moon/",
+    "female": "female/facial/earrings/moon/",
+    "pregnant": "female/facial/earrings/moon/",
+    "teen": "female/facial/earrings/moon/"
+  },
+  "variants": [
+    "steel",
+    "iron",
+    "ceramic",
+    "brass",
+    "copper",
+    "bronze",
+    "silver",
+    "gold"
+  ],
+  "credits": [
+    {
+      "file": "shared/facial/earrings/moon",
+      "notes": "",
+      "authors": [
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-jewelry"
+      ]
+    }
+  ],
+  "path": [
+    "head",
+    "accessories",
+    "earrings",
+    "facial_earrings_moon"
+  ],
+  "type_name": "earrings"
+}

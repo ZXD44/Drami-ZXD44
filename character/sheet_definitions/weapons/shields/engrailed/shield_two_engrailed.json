@@ -1,0 +1,43 @@
+{
+  "name": "Two engrailed shield",
+  "layer_1": {
+    "zPos": 2,
+    "male": "shared/shield/two_engrailed/paint/bg/",
+    "muscular": "shared/shield/two_engrailed/paint/bg/",
+    "female": "shared/shield/two_engrailed/paint/bg/",
+    "pregnant": "shared/shield/two_engrailed/paint/bg/"
+  },
+  "layer_2": {
+    "zPos": 110,
+    "male": "male/shield/two_engrailed/paint/fg/",
+    "muscular": "male/shield/two_engrailed/paint/fg/",
+    "female": "female/shield/two_engrailed/paint/fg/",
+    "pregnant": "female/shield/two_engrailed/paint/fg/"
+  },
+  "variants": [
+    "two_engrailed"
+  ],
+  "credits": [
+    {
+      "file": "shared/shield/two_engrailed",
+      "notes": "",
+      "authors": [
+        "bluecarrot16",
+        "Sander Frenken (castelonia)"
+      ],
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-shields"
+      ]
+    }
+  ],
+  "path": [
+    "weapons",
+    "shield",
+    "two-engrailed shield",
+    "shield_two_engrailed"
+  ],
+  "type_name": "shield"
+}

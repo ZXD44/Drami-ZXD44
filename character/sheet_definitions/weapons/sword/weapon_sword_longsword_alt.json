@@ -1,0 +1,67 @@
+{
+  "name": "Longsword alt",
+  "preview_row": 5,
+  "preview_column": 0,
+  "preview_x_offset": 28,
+  "preview_y_offset": -16,
+  "layer_1": {
+    "custom_animation": "walk_128",
+    "zPos": 140,
+    "male": "shared/weapon/sword/longsword_alt/walk/",
+    "muscular": "shared/weapon/sword/longsword_alt/walk/",
+    "female": "shared/weapon/sword/longsword_alt/walk/",
+    "pregnant": "shared/weapon/sword/longsword_alt/walk/"
+  },
+  "layer_2": {
+    "custom_animation": "walk_128",
+    "zPos": 9,
+    "male": "shared/weapon/sword/longsword_alt/walk/behind/",
+    "muscular": "shared/weapon/sword/longsword_alt/walk/behind/",
+    "female": "shared/weapon/sword/longsword_alt/walk/behind/",
+    "pregnant": "shared/weapon/sword/longsword_alt/walk/behind/"
+  },
+  "layer_3": {
+    "custom_animation": "slash_128",
+    "zPos": 140,
+    "male": "shared/weapon/sword/longsword_alt/slash/",
+    "muscular": "shared/weapon/sword/longsword_alt/slash/",
+    "female": "shared/weapon/sword/longsword_alt/slash/",
+    "pregnant": "shared/weapon/sword/longsword_alt/slash/"
+  },
+  "layer_4": {
+    "custom_animation": "slash_128",
+    "zPos": 9,
+    "male": "shared/weapon/sword/longsword_alt/slash/behind/",
+    "muscular": "shared/weapon/sword/longsword_alt/slash/behind/",
+    "female": "shared/weapon/sword/longsword_alt/slash/behind/",
+    "pregnant": "shared/weapon/sword/longsword_alt/slash/behind/"
+  },
+  "variants": [
+    "longsword_alt"
+  ],
+  "animations": [
+    "walk_128",
+    "slash_128"
+  ],
+  "credits": [
+    {
+      "file": "shared/weapon/sword/longsword_alt",
+      "notes": "",
+      "authors": [
+        "Pierre Vigier and DCSS artists (see https://github.com/crawl/tiles/blob/master/ARTISTS.md)"
+      ],
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-dcss-swords"
+      ]
+    }
+  ],
+  "path": [
+    "weapons",
+    "sword",
+    "weapon_sword_longsword_alt"
+  ],
+  "type_name": "weapon"
+}

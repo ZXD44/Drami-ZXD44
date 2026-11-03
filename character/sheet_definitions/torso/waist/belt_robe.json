@@ -1,0 +1,42 @@
+{
+  "name": "Robe Belt",
+  "priority": 50,
+  "layer_1": {
+    "zPos": 70,
+    "male": "male/torso/waist/belt_robe/",
+    "teen": "female/torso/waist/belt_robe/",
+    "female": "female/torso/waist/belt_robe/"
+  },
+  "variants": [
+    "teal",
+    "white"
+  ],
+  "credits": [
+    {
+      "file": "shared/torso/waist/belt_robe",
+      "notes": "",
+      "authors": [
+        "Johannes Sjölund (wulax)",
+        "Matthew Krohn (makrohn)"
+      ],
+      "licenses": [
+        "OGA-BY 3.0",
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites"
+      ]
+    }
+  ],
+  "path": [
+    "torso",
+    "waist",
+    "belt_robe"
+  ],
+  "aliases": {
+    "Other_belts_white": "white",
+    "Other_belts_teal": "teal"
+  },
+  "type_name": "belt"
+}

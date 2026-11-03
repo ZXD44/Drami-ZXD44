@@ -1,0 +1,50 @@
+{
+  "name": "Pear cut Gem",
+  "layer_1": {
+    "zPos": 81,
+    "male": "male/neck/gem/pear/",
+    "muscular": "male/neck/gem/pear/",
+    "female": "female/neck/gem/pear/",
+    "teen": "female/neck/gem/pear/",
+    "pregnant": "female/neck/gem/pear/"
+  },
+  "variants": [
+    "blue",
+    "green",
+    "orange",
+    "purple",
+    "red",
+    "yellow"
+  ],
+  "animations": [
+    "spellcast",
+    "thrust",
+    "walk",
+    "slash",
+    "shoot",
+    "hurt",
+    "idle"
+  ],
+  "credits": [
+    {
+      "file": "shared/neck/gem",
+      "notes": "",
+      "authors": [
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-jewelry"
+      ]
+    }
+  ],
+  "path": [
+    "head",
+    "neck",
+    "necklace charms",
+    "neck_gem_pear"
+  ],
+  "type_name": "charm"
+}
