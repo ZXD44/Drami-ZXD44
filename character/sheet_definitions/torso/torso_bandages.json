@@ -1,0 +1,36 @@
+{
+  "name": "Bandages",
+  "priority": 80,
+  "layer_1": {
+    "zPos": 110,
+    "male": "male/torso/bandage/",
+    "female": "female/torso/bandage/",
+    "teen": "male/torso/bandage/"
+  },
+  "variants": [
+    "white"
+  ],
+  "credits": [
+    {
+      "file": "shared/torso/bandage",
+      "notes": "",
+      "authors": [
+        "Nila122"
+      ],
+      "licenses": [
+        "OGA-BY 3.0",
+        "CC-BY-SA 3.0",
+        "GPL 2.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-bandages"
+      ]
+    }
+  ],
+  "path": [
+    "torso",
+    "torso_bandages"
+  ],
+  "type_name": "bandages"
+}

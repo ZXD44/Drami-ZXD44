@@ -1,0 +1,253 @@
+/* === PREMIUM PIXEL HOTBAR (Inspired by Image) === */
+
+.hotbar-wrapper {
+	position: fixed;
+	bottom: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	pointer-events: none;
+}
+
+/* --- Top Status Bar (EXP Only) --- */
+.hotbar-exp-container {
+	width: 100%;
+	display: flex;
+	align-items: flex-end;
+	gap: 6px;
+	padding: 0 4px;
+	margin-bottom: -2px; /* Pull closer to hotbar */
+}
+
+.hotbar-exp-bar-wrapper {
+	flex: 1;
+	height: 10px; /* Slightly taller for text */
+	background: rgba(0, 0, 0, 0.85);
+	border: 1.5px solid #1a1a1a;
+	border-radius: 2px;
+	overflow: hidden;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	position: relative;
+    margin-bottom: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.hotbar-exp-bar-fill {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	background: linear-gradient(to bottom, #fde047, #eab308, #854d0e);
+	box-shadow: 0 0 15px rgba(234, 179, 8, 0.4);
+	transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hotbar-exp-text {
+	position: relative;
+	z-index: 2;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 7px;
+	color: #fff;
+	text-shadow: 1px 1px 0px #000;
+	pointer-events: none;
+}
+
+/* Glass shine effect on the exp bar */
+.hotbar-exp-bar-fill::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40%;
+	background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Main Hotbar Structure --- */
+.hotbar-main {
+	pointer-events: auto;
+	display: flex;
+	align-items: center;
+	padding: 4px;
+	background: #2c2a28;
+	/* Dark stone brown/grey */
+	border: 2px solid #1a1a1a;
+	border-radius: 8px;
+	box-shadow:
+		0 8px 30px rgba(0, 0, 0, 0.8),
+		inset 0 2px 0 rgba(255, 255, 255, 0.1);
+	position: relative;
+}
+
+/* Decorative Ornaments on Sides */
+.hotbar-main::before,
+.hotbar-main::after {
+	content: "";
+	position: absolute;
+	top: -6px;
+	width: 24px;
+	height: 54px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	z-index: -1;
+}
+
+.hotbar-main::before {
+	left: -18px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 54'%3E%3Cpath d='M24 0c-10 0-20 10-24 27s14 27 24 27V0z' fill='%233a3530'/%3E%3C/svg%3E");
+}
+
+.hotbar-main::after {
+	right: -18px;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 54'%3E%3Cpath d='M0 0c10 0 20 10 24 27S10 54 0 54V0z' fill='%233a3530'/%3E%3C/svg%3E");
+}
+
+/* Slots Shared Style */
+.hotbar-skill-slot,
+.hotbar-icon-btn,
+.hotbar-bag-btn {
+	width: 44px;
+	height: 44px;
+	background: #1a1a1a;
+	border: 1.5px solid #444;
+	margin: 0 2px;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.1s;
+	overflow: visible !important;
+}
+
+.hotbar-skill-slot:hover,
+.hotbar-icon-btn:hover {
+	border-color: #eee;
+	transform: scale(1.05);
+	z-index: 10;
+}
+
+.hotbar-skill-slot:active,
+.is-pressed {
+	background: #444;
+	transform: scale(0.95);
+}
+
+/* Key Hints - Aligned to Bottom-Left Corner of Slot */
+.hotbar-skill-key {
+	position: absolute;
+	bottom: -3px;
+	/* Move up closer to the slot */
+	left: 2px;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 8px;
+	color: #999;
+	text-shadow: 1px 1px 2px #000;
+	pointer-events: none;
+	white-space: nowrap;
+}
+
+.hotbar-side {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	padding: 0 4px;
+}
+
+/* Specific side padding */
+.hotbar-left {
+	padding-right: 6px;
+}
+
+.hotbar-right {
+	padding-left: 6px;
+}
+
+/* Icons */
+.hotbar-skill-icon {
+	font-size: 1.5rem;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Divider effect */
+.hotbar-skills {
+	display: flex;
+	gap: 0;
+	border-left: 1.5px solid rgba(255, 255, 255, 0.1);
+	border-right: 1.5px solid rgba(255, 255, 255, 0.1);
+	padding: 0 4px;
+}
+
+/* Center Menu Button (Hamburger style from image) */
+.btn-menu-center {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	width: 20px;
+}
+
+.btn-menu-center span {
+	width: 100%;
+	height: 2.5px;
+	background: #999;
+	border-radius: 1px;
+}
+
+/* --- Emoji Picker --- */
+.emoji-picker {
+	pointer-events: auto; /* Fix: Allow clicks on emoji buttons */
+	background: rgba(20, 18, 16, 0.95);
+	border: 2px solid #332d28;
+	padding: 10px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 8px;
+	margin-bottom: 8px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+	backdrop-filter: blur(8px);
+	border-radius: 8px;
+}
+
+.emoji-btn {
+	background: #1a1a1a;
+	border: 1.5px solid #444;
+	border-radius: 4px;
+	width: 38px;
+	height: 38px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.4rem;
+	cursor: pointer;
+}
+
+.emoji-btn:hover {
+	border-color: var(--gold-bright);
+	background: #222;
+}
+
+/* Responsive */
+@media (max-width: 640px) or (max-height: 500px) {
+
+	.hotbar-skill-slot,
+	.hotbar-icon-btn,
+	.hotbar-bag-btn {
+		width: 34px;
+		height: 34px;
+	}
+
+	.hotbar-skill-icon {
+		font-size: 1rem;
+	}
+
+	.hotbar-bars {
+		display: none;
+	}
+}

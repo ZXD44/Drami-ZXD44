@@ -1,0 +1,71 @@
+/* --- GAME BOOT AND ERROR OVERLAYS --- */
+
+.game-boot-loader {
+	position: fixed;
+	inset: 0;
+	background: radial-gradient(circle at center, #1a1a2e 0%, #0d0d1a 100%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 999999;
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+
+.game-boot-loader.connection-failed {
+	background: radial-gradient(circle at center, #2e1a1a 0%, #0a0a0d 100%);
+	z-index: 1000000;
+}
+
+.premium-ring-loader {
+	position: relative;
+	width: 100px; height: 100px;
+}
+
+.ring-inner, .ring-outer, .ring-center {
+	position: absolute;
+	border: 2px solid transparent; border-radius: 50%;
+}
+
+.ring-outer {
+	inset: 0; border-top-color: var(--gold-bright);
+	border-bottom-color: var(--gold-bright);
+	animation: spinQuest 3s linear infinite;
+	box-shadow: 0 0 15px rgba(240, 192, 64, 0.2);
+}
+
+.ring-inner {
+	inset: 15px; border-left-color: #60a5fa;
+	border-right-color: #60a5fa;
+	animation: spinQuest 1.5s linear reverse infinite;
+	box-shadow: 0 0 10px rgba(96, 155, 250, 0.2);
+}
+
+.ring-center {
+	inset: 35px; background: var(--gold-bright);
+	opacity: 0.3; animation: pulse 2s ease-in-out infinite;
+}
+
+.loader-text {
+	color: var(--gold-bright); font-size: 0.95rem; font-weight: 500;
+	letter-spacing: 0.1em; text-shadow: 0 0 10px rgba(240, 192, 64, 0.3);
+}
+
+.error-title {
+	font-family: 'Press Start 2P', cursive; font-size: 1.2rem;
+	color: #ff4444; text-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+}
+
+.btn-retry-premium {
+	background: #ff4444; color: #ffffff; border: none;
+	padding: 1rem 2.5rem; border-radius: 4px;
+	font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 700;
+	font-size: 0.9rem; cursor: pointer; transition: all 0.3s;
+	box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+	text-transform: uppercase;
+}
+
+.btn-retry-premium:hover {
+	background: #ff5555; transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(255, 68, 68, 0.5);
+}

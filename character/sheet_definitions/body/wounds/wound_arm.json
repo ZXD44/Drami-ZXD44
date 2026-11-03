@@ -1,0 +1,38 @@
+{
+  "name": "Arm",
+  "priority": 50,
+  "layer_1": {
+    "zPos": 15,
+    "male": "shared/body/wound/arm/",
+    "muscular": "shared/body/wound/arm/",
+    "female": "shared/body/wound/arm/",
+    "pregnant": "shared/body/wound/arm/",
+    "teen": "shared/body/wound/arm/"
+  },
+  "variants": [
+    "red"
+  ],
+  "credits": [
+    {
+      "file": "shared/body/wound/arm",
+      "notes": "",
+      "authors": [
+        "Benjamin K. Smith (BenCreating)",
+        "Sander Frenken (castelonia)"
+      ],
+      "licenses": [
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-zombie"
+      ]
+    }
+  ],
+  "path": [
+    "body",
+    "wounds",
+    "wound_arm"
+  ],
+  "type_name": "wound_arm"
+}

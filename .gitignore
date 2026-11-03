@@ -1,0 +1,34 @@
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+client.log
+server.log
+error.log
+output.log
+
+# Node dependencies
+node_modules/
+.npm/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Build outputs
+.svelte-kit/
+dist/
+build/
+.vercel/
+
+# Database
+server/dev.db
+server/dev.db-journal
+server/prisma/dev.db-journal
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,43 @@
+{
+  "name": "Scutum shield",
+  "layer_1": {
+    "zPos": 2,
+    "male": "shared/shield/scutum/paint/bg/",
+    "muscular": "shared/shield/scutum/paint/bg/",
+    "female": "shared/shield/scutum/paint/bg/",
+    "pregnant": "shared/shield/scutum/paint/bg/"
+  },
+  "layer_2": {
+    "zPos": 110,
+    "male": "male/shield/scutum/paint/fg/",
+    "muscular": "male/shield/scutum/paint/fg/",
+    "female": "female/shield/scutum/paint/fg/",
+    "pregnant": "female/shield/scutum/paint/fg/"
+  },
+  "variants": [
+    "scutum"
+  ],
+  "credits": [
+    {
+      "file": "shared/shield/scutum",
+      "notes": "",
+      "authors": [
+        "bluecarrot16",
+        "Sander Frenken (castelonia)"
+      ],
+      "licenses": [
+        "OGA-BY 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-shields"
+      ]
+    }
+  ],
+  "path": [
+    "weapons",
+    "shield",
+    "scutum shield",
+    "shield_scutum"
+  ],
+  "type_name": "shield"
+}

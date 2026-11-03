@@ -1,0 +1,74 @@
+{
+  "name": "Tabard",
+  "layer_1": {
+    "zPos": 55,
+    "female": "female/torso/jacket/tabard/",
+    "teen": "female/torso/jacket/tabard/",
+    "male": "male/torso/jacket/tabard/"
+  },
+  "variants": [
+    "black",
+    "blue",
+    "forest",
+    "gray",
+    "green",
+    "lavender",
+    "leather",
+    "maroon",
+    "navy",
+    "orange",
+    "pink",
+    "purple",
+    "red",
+    "sky",
+    "tan",
+    "teal",
+    "walnut",
+    "white",
+    "yellow"
+  ],
+  "credits": [
+    {
+      "file": "shared/torso/jacket/tabard",
+      "notes": "original by wulax, edited to v3 base by bluecarrot16",
+      "authors": [
+        "bluecarrot16",
+        "Johannes Sjölund (wulax)"
+      ],
+      "licenses": [
+        "OGA-BY 3.0",
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+        "http://opengameart.org/content/lpc-clothing-updates"
+      ]
+    },
+    {
+      "file": "female/torso/jacket/tabard",
+      "notes": "original by wulax, edited to female base by makrohn and JaidynReiman, edited to v3 base by bluecarrot16",
+      "authors": [
+        "JaidynReiman",
+        "Matthew Krohn (makrohn)",
+        "Johannes Sjölund (wulax)"
+      ],
+      "licenses": [
+        "OGA-BY 3.0",
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+        "https://opengameart.org/content/lpc-combat-armor-for-women",
+        "http://opengameart.org/content/lpc-clothing-updates"
+      ]
+    }
+  ],
+  "path": [
+    "torso",
+    "jacket",
+    "torso_jacket_tabard"
+  ],
+  "type_name": "jacket"
+}

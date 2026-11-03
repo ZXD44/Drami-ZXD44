@@ -1,0 +1,47 @@
+{
+  "name": "Basket",
+  "tags": [
+    "back",
+    "backpack",
+    "basket"
+  ],
+  "layer_1": {
+    "zPos": 130,
+    "male": "shared/backpack/basket/fg/",
+    "muscular": "shared/backpack/basket/fg/",
+    "female": "shared/backpack/basket/fg/",
+    "pregnant": "shared/backpack/basket/fg/"
+  },
+  "layer_2": {
+    "zPos": 5,
+    "male": "shared/backpack/basket/bg/",
+    "muscular": "shared/backpack/basket/bg/",
+    "female": "shared/backpack/basket/bg/",
+    "pregnant": "shared/backpack/basket/bg/"
+  },
+  "variants": [
+    "round",
+    "square"
+  ],
+  "credits": [
+    {
+      "file": "shared/backpack/basket",
+      "notes": "full submission is CC-BY-SA 3.0/GPL 3.0, but this item is CC0",
+      "authors": [
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-more-backpacks"
+      ]
+    }
+  ],
+  "path": [
+    "torso",
+    "backpack",
+    "backpack_basket"
+  ],
+  "type_name": "backpack"
+}

@@ -1,0 +1,66 @@
+{
+  "name": "Saber",
+  "layer_1": {
+    "zPos": 140,
+    "male": "shared/weapon/sword/saber/",
+    "muscular": "shared/weapon/sword/saber/",
+    "female": "shared/weapon/sword/saber/",
+    "pregnant": "shared/weapon/sword/saber/"
+  },
+  "layer_2": {
+    "zPos": 9,
+    "male": "shared/weapon/sword/saber/universal_behind/",
+    "muscular": "shared/weapon/sword/saber/universal_behind/",
+    "female": "shared/weapon/sword/saber/universal_behind/",
+    "pregnant": "shared/weapon/sword/saber/universal_behind/"
+  },
+  "layer_3": {
+    "zPos": 8,
+    "custom_animation": "slash_oversize",
+    "male": "shared/weapon/sword/saber/attack_slash/behind/",
+    "muscular": "shared/weapon/sword/saber/attack_slash/behind/",
+    "female": "shared/weapon/sword/saber/attack_slash/behind/",
+    "pregnant": "shared/weapon/sword/saber/attack_slash/behind/"
+  },
+  "layer_4": {
+    "zPos": 150,
+    "custom_animation": "slash_oversize",
+    "male": "shared/weapon/sword/saber/attack_slash/",
+    "muscular": "shared/weapon/sword/saber/attack_slash/",
+    "female": "shared/weapon/sword/saber/attack_slash/",
+    "pregnant": "shared/weapon/sword/saber/attack_slash/"
+  },
+  "variants": [
+    "saber"
+  ],
+  "animations": [
+    "walk",
+    "hurt",
+    "slash_oversize"
+  ],
+  "credits": [
+    {
+      "file": "shared/weapon/sword/saber",
+      "notes": "",
+      "authors": [
+        "Daniel Eddeland (daneeklu)",
+        "Johannes Sjölund (wulax)",
+        "gr3yh47",
+        "bluecarrot16"
+      ],
+      "licenses": [
+        "CC-BY-SA 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-medieval-fantasy-character-sprites",
+        "https://opengameart.org/content/lpc-extended-weapon-animations"
+      ]
+    }
+  ],
+  "path": [
+    "weapons",
+    "sword",
+    "weapon_sword_saber"
+  ],
+  "type_name": "weapon"
+}

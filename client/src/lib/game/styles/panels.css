@@ -1,0 +1,323 @@
+/* === SHARED OVERLAY PANELS (Inventory, Skills, Quest, Party, Menu) === */
+
+.panel-overlay {
+	background: #161512; /* Warm dark brown-black from reference */
+	border: 3px solid #0a0a09; /* Outer bezel frame */
+	border-radius: 16px;
+	box-shadow: 0 20px 80px rgba(0, 0, 0, 0.95);
+	z-index: 100;
+	overflow: hidden; /* Ensure header fits corners */
+	display: flex;
+	flex-direction: column;
+}
+
+.panel-overlay-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1.2rem 1.5rem;
+	background: #000000; /* Pure black header as seen in image */
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.panel-overlay-header h3 {
+	margin: 0;
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+	font-size: 1.6rem; /* Increased size */
+	font-weight: 800; /* Bolder weight */
+	color: #fbbf24; /* Warm gold yellow */
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 10px rgba(251, 191, 36, 0.2);
+}
+
+.panel-overlay-close {
+	background: #111111;
+	border: 1.5px solid #222222;
+	border-radius: 8px;
+	color: #666;
+	padding: 0;
+    width: 32px;
+    height: 32px;
+	cursor: pointer;
+	transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.panel-overlay-close:hover {
+	background: #e74c3c;
+	color: #fff;
+	border-color: #ff8a80;
+}
+
+.panel-mobile {
+	max-width: 90vw !important;
+	min-width: unset !important;
+	max-height: 70vh;
+	width: 340px;
+}
+
+.empty-state {
+	text-align: center;
+	padding: 1.5rem;
+	font-family: 'VT323', monospace;
+	color: var(--text-muted);
+}
+
+.quest-item, .skill-item, .party-item {
+	background: rgba(0,0,0,0.3);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+	padding: 0.6rem 0.8rem;
+}
+
+/* === MAIN MENU - CLEAN REDESIGN === */
+.menu-main-panel {
+	width: 340px !important;
+}
+
+/* --- Hero Profile (Centered) --- */
+.menu-profile-hero {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2rem 1.5rem 1.5rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.profile-avatar-lg {
+	position: relative;
+	width: 88px;
+	height: 88px;
+	background: none;
+	cursor: pointer;
+	padding: 0;
+	border: 3px solid #d4a020;
+	border-radius: 14px;
+	overflow: visible;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 160, 32, 0.15);
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.profile-avatar-lg:hover {
+	transform: scale(1.05);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 160, 32, 0.25);
+}
+
+.avatar-hover-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.7);
+	border-radius: 11px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: #fff;
+	opacity: 0;
+	transition: opacity 0.2s;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.profile-avatar-lg:hover .avatar-hover-overlay {
+	opacity: 1;
+}
+
+.profile-avatar-lg .profile-avatar-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 11px;
+	image-rendering: pixelated;
+}
+
+.profile-avatar-lg .profile-level-badge {
+	position: absolute;
+	bottom: -8px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: linear-gradient(180deg, #fde047, #d97706);
+	color: #000;
+	font-family: 'Press Start 2P', monospace;
+	font-size: 0.5rem;
+	padding: 3px 8px;
+	border-radius: 4px;
+	border: 2px solid #161512;
+	white-space: nowrap;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.profile-hero-name {
+	margin: 1rem 0 0;
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+	font-size: 1.5rem;
+	font-weight: 800;
+	color: #fff;
+	text-align: center;
+	line-height: 1.2;
+}
+
+.profile-hero-title {
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+	font-size: 0.9rem;
+	color: #fbbf24;
+	opacity: 0.85;
+	margin-top: 2px;
+}
+
+.profile-hero-guild {
+	margin-top: 10px;
+	font-size: 0.8rem;
+	color: #999;
+	background: rgba(255, 255, 255, 0.03);
+	padding: 5px 14px;
+	border-radius: 20px;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* --- Currency Row --- */
+.menu-currency-row {
+	display: flex;
+	gap: 1px;
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.currency-chip {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 0.9rem;
+	background: #151412;
+}
+
+.currency-icon {
+	font-size: 1.3rem;
+}
+
+.currency-amount {
+	font-family: 'Inter', sans-serif;
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.gold-chip .currency-amount { color: #fbbf24; }
+.diamond-chip .currency-amount { color: #60a5fa; }
+
+/* --- Quick Nav Grid --- */
+.menu-nav-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1px;
+	background: rgba(255, 255, 255, 0.03);
+	border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.menu-nav-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 1rem 0;
+	background: #151412;
+	border: none;
+	color: #aaa;
+	cursor: pointer;
+	transition: all 0.15s;
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+	font-size: 0.75rem;
+}
+
+.menu-nav-btn:hover {
+	background: #1c1a17;
+	color: #fbbf24;
+}
+
+.menu-nav-btn:active {
+	transform: scale(0.95);
+}
+
+.nav-icon {
+	font-size: 1.4rem;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* --- Bottom Actions --- */
+.menu-bottom-actions {
+	display: flex;
+	gap: 1px;
+	background: rgba(255, 255, 255, 0.03);
+	border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.menu-action-btn {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	padding: 1rem 0.5rem;
+	background: #151412;
+	border: none;
+	color: #888;
+	cursor: pointer;
+	transition: all 0.2s;
+	font-family: 'IBM Plex Sans Thai', sans-serif;
+	font-size: 0.7rem;
+	font-weight: 600;
+}
+
+.menu-action-btn svg,
+.menu-action-btn .action-icon {
+	font-size: 1.3rem;
+	opacity: 0.7;
+	transition: all 0.2s;
+}
+
+.menu-action-btn:hover svg,
+.menu-action-btn:hover .action-icon {
+	opacity: 1;
+	transform: scale(1.15);
+}
+
+.menu-action-btn:active {
+	transform: scale(0.95);
+}
+
+/* Discord */
+.discord-action { color: #7c87f2; }
+.discord-action:hover {
+	background: rgba(88, 101, 242, 0.1);
+	color: #a5aef7;
+}
+.discord-action svg { fill: #7c87f2; }
+.discord-action:hover svg { fill: #a5aef7; }
+
+/* Admin */
+.admin-action { color: #fbbf24; }
+.admin-action:hover {
+	background: rgba(251, 191, 36, 0.08);
+	color: #fde68a;
+}
+
+/* Logout */
+.logout-action { color: #f87171; }
+.logout-action:hover {
+	background: rgba(248, 113, 113, 0.08);
+	color: #fca5a5;
+}
+
+
+@media (max-width: 640px) or (max-height: 500px) {
+	.panel-mobile { width: 90vw; max-height: 75vh; }
+}

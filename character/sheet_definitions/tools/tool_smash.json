@@ -1,0 +1,62 @@
+{
+  "name": "Smash",
+  "layer_1": {
+    "zPos": 140,
+    "male": "male/tools/smash/universal/",
+    "muscular": "male/tools/smash/universal/",
+    "female": "female/tools/smash/universal/",
+    "pregnant": "female/tools/smash/universal/",
+    "teen": "female/tools/smash/universal/"
+  },
+  "layer_2": {
+    "zPos": 9,
+    "custom_animation": "slash_128",
+    "male": "shared/tools/smash/background/",
+    "muscular": "shared/tools/smash/background/",
+    "female": "shared/tools/smash/background/",
+    "pregnant": "shared/tools/smash/background/",
+    "teen": "shared/tools/smash/background/"
+  },
+  "layer_3": {
+    "zPos": 150,
+    "custom_animation": "slash_128",
+    "male": "shared/tools/smash/foreground/",
+    "muscular": "shared/tools/smash/foreground/",
+    "female": "shared/tools/smash/foreground/",
+    "pregnant": "shared/tools/smash/foreground/",
+    "teen": "shared/tools/smash/foreground/"
+  },
+  "variants": [
+    "axe",
+    "hammer",
+    "pickaxe"
+  ],
+  "animations": [
+    "walk",
+    "slash_128"
+  ],
+  "credits": [
+    {
+      "file": "shared/tools/smash",
+      "notes": "",
+      "authors": [
+        "bluecarrot16",
+        "Pierre Vigier (pvigier)",
+        "Tuomo Untinen (reemax)",
+        "Johannes Sjölund (wulax)",
+        "and Inboxninja"
+      ],
+      "licenses": [
+        "CC-BY-SA 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/lpc-hand-tools"
+      ]
+    }
+  ],
+  "path": [
+    "tools",
+    "tool_smash"
+  ],
+  "type_name": "weapon"
+}

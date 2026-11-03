@@ -1,0 +1,101 @@
+{
+  "name": "Lizard Tail (Alt Colors)",
+  "priority": 40,
+  "layer_1": {
+    "zPos": 85,
+    "male": "shared/body/tail/lizard/alt/adult/fg/",
+    "muscular": "shared/body/tail/lizard/alt/adult/fg/",
+    "female": "shared/body/tail/lizard/alt/adult/fg/",
+    "pregnant": "shared/body/tail/lizard/alt/adult/fg/",
+    "teen": "shared/body/tail/lizard/alt/adult/fg/",
+    "child": "child/body/tail/lizard/alt/fg/"
+  },
+  "layer_2": {
+    "zPos": 5,
+    "male": "shared/body/tail/lizard/alt/adult/bg/",
+    "muscular": "shared/body/tail/lizard/alt/adult/bg/",
+    "female": "shared/body/tail/lizard/alt/adult/bg/",
+    "pregnant": "shared/body/tail/lizard/alt/adult/bg/",
+    "teen": "shared/body/tail/lizard/alt/adult/bg/",
+    "child": "child/body/tail/lizard/alt/bg/"
+  },
+  "variants": [
+    "blonde",
+    "ash",
+    "sandy",
+    "platinum",
+    "strawberry",
+    "redhead",
+    "ginger",
+    "carrot",
+    "chestnut",
+    "light brown",
+    "dark brown",
+    "black",
+    "raven",
+    "dark gray",
+    "gray",
+    "white",
+    "red",
+    "orange",
+    "gold",
+    "green",
+    "blue",
+    "navy",
+    "violet",
+    "purple",
+    "pink",
+    "rose",
+    "fur_black",
+    "fur_brown",
+    "fur_tan",
+    "fur_copper",
+    "fur_gold",
+    "fur_grey",
+    "fur_white"
+  ],
+  "animations": [
+    "spellcast",
+    "thrust",
+    "walk",
+    "slash",
+    "shoot",
+    "hurt",
+    "watering",
+    "idle",
+    "jump",
+    "run",
+    "sit",
+    "emote",
+    "climb",
+    "combat",
+    "1h_slash",
+    "1h_backslash",
+    "1h_halfslash"
+  ],
+  "credits": [
+    {
+      "file": "shared/body/tail/lizard",
+      "notes": "edited for v3 bases and recolored by bluecarrot16, additional animations added by JaidynReiman",
+      "authors": [
+        "Nila122",
+        "bluecarrot16",
+        "JaidynReiman"
+      ],
+      "licenses": [
+        "OGA-BY 3.0",
+        "CC-BY-SA 3.0",
+        "GPL 3.0"
+      ],
+      "urls": [
+        "https://opengameart.org/content/drakes-and-lizardfolk"
+      ]
+    }
+  ],
+  "path": [
+    "body",
+    "tails",
+    "tail_lizard_alt"
+  ],
+  "type_name": "tail"
+}

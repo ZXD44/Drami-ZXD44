@@ -1,0 +1,13 @@
+/* 
+  DRAMI ONLINE - GLOBAL UI STYLES
+  Architecture: Modularized CSS for better maintenance
+*/
+
+@import "./theme.css";
+@import "./notifications.css";
+@import "./hud.css";
+@import "./hotbar.css";
+@import "./chat.css";
+@import "./panels.css";
+@import "./admin.css";
+@import "./boot.css";
