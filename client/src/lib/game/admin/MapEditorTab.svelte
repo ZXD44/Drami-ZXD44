@@ -63,6 +63,18 @@
     }
 
     function addEntityAtPlayer() {
+        // Send directly via WebSocket to Room if active
+        const win = window as any;
+        if (win.__drami_room) {
+            win.__drami_room.send("admin_spawn_entity", {
+                type: entityType,
+                name: entityName,
+                x: currentX,
+                y: currentY,
+                hp: entityHp
+            });
+        }
+
         const newObj = {
             id: `entity_${Date.now()}`,
             type: entityType,
@@ -71,12 +83,24 @@
             y: currentY
         };
         placedEntities = [...placedEntities, newObj];
-        showNotification(`วาง ${entityName} (${entityType}) ที่พิกัด (${currentX}, ${currentY})`, "success");
+        showNotification(`วาง ${entityName} (${entityType}) สำเร็จบนเซิร์ฟเวอร์!`, "success");
     }
 
     function removeEntity(id: string) {
+        const win = window as any;
+        if (win.__drami_room) {
+            win.__drami_room.send("admin_remove_entity", { id });
+        }
         placedEntities = placedEntities.filter(e => e.id !== id);
         showNotification("ลบเอนทิตีออกจากแผนที่แล้ว", "info");
+    }
+
+    function teleportToEntity(x: number, y: number) {
+        const win = window as any;
+        if (win.__drami_room) {
+            win.__drami_room.send("admin_teleport_to", { x, y });
+            showNotification(`วาร์ปไปยังพิกัด (${x}, ${y})`, "success");
+        }
     }
 </script>
 
@@ -188,9 +212,14 @@
                             <span class="entity-name">{ent.name}</span>
                             <span class="entity-coords">({ent.x}, {ent.y})</span>
                         </div>
-                        <button class="btn-del-ent" onclick={() => removeEntity(ent.id)} title="ลบ">
-                            <Icon name="close" size={12} color="#f87171" />
-                        </button>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <button class="btn-warp-ent" onclick={() => teleportToEntity(ent.x, ent.y)} title="วาร์ปไปหา">
+                                <Icon name="ping" size={12} color="#38bdf8" />
+                            </button>
+                            <button class="btn-del-ent" onclick={() => removeEntity(ent.id)} title="ลบ">
+                                <Icon name="close" size={12} color="#f87171" />
+                            </button>
+                        </div>
                     </div>
                 {/each}
             </div>

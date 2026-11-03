@@ -202,12 +202,16 @@
 <style>
     .admin-panel-large {
         position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) !important;
-        width: 720px !important; height: 580px !important; max-width: 95vw !important; max-height: 90vh !important;
+        width: 820px !important; height: 620px !important; max-width: 96vw !important; max-height: 92vh !important;
         z-index: 500; display: flex; flex-direction: column;
-        background: #161512 !important;
-        border: 3px solid #0a0a09 !important;
+        background: rgba(13, 17, 23, 0.94) !important;
+        backdrop-filter: blur(16px) saturate(180%) !important;
+        border: 1.5px solid rgba(251, 191, 36, 0.35) !important;
         border-radius: 16px !important;
-        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.95) !important;
+        box-shadow: 
+            0 24px 80px rgba(0, 0, 0, 0.95),
+            0 0 25px rgba(251, 191, 36, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
         font-family: 'IBM Plex Sans Thai', sans-serif !important;
         overflow: hidden !important;
     }
@@ -215,38 +219,49 @@
     .header-content {
         display: flex; flex-direction: column; gap: 2px;
     }
-    .admin-title { color: #fbbf24; font-weight: 800; font-size: 1.4rem; text-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 0 10px rgba(251, 191, 36, 0.2); }
-    .motto-text { font-size: 0.6rem; color: #666; letter-spacing: 0.15em; text-transform: uppercase; min-height: 1.2em; display: flex; align-items: center; }
+    .admin-title { 
+        color: #fbbf24; 
+        font-weight: 800; 
+        font-size: 1.3rem; 
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 0 12px rgba(251, 191, 36, 0.25);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .motto-text { font-size: 0.65rem; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase; min-height: 1.2em; display: flex; align-items: center; }
     .typing-cursor { animation: blink 1s infinite; color: #fbbf24; margin-left: 2px; font-weight: 400; }
     @keyframes blink { 0%, 50% { opacity: 0; } 51%, 100% { opacity: 1; } }
 
     .admin-nav-bar {
-        display: flex; background: #111110; padding: 0.6rem 1.2rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        display: flex; 
+        background: linear-gradient(180deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%); 
+        padding: 0.6rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         align-items: center; justify-content: space-between;
     }
-    .nav-tabs { display: flex; gap: 4px; }
+    .nav-tabs { display: flex; gap: 6px; }
     .nav-tab {
-        background: #1a1917; border: 1px solid #222;
-        color: #888; padding: 0.5rem 1.2rem; border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05); 
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #94a3b8; padding: 0.5rem 1rem; border-radius: 8px;
         cursor: pointer; display: flex; align-items: center; gap: 8px;
-        font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+        font-size: 0.82rem; font-weight: 600; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .nav-tab:hover { background: #22211e; color: #ccc; }
+    .nav-tab:hover { background: rgba(255, 255, 255, 0.1); color: #fff; transform: translateY(-1px); }
     .nav-tab.active {
-        background: rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3);
-        color: #fbbf24; box-shadow: 0 0 12px rgba(251, 191, 36, 0.08);
+        background: rgba(251, 191, 36, 0.16); border-color: rgba(251, 191, 36, 0.45);
+        color: #fcd34d; box-shadow: 0 0 14px rgba(251, 191, 36, 0.15);
     }
     .btn-refresh {
-        background: #1a1917; border: 1.5px solid #222; color: #666;
-        width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
+        background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #cbd5e1;
+        width: 36px; height: 36px; border-radius: 8px; cursor: pointer;
         display: flex; align-items: center; justify-content: center;
-        transition: all 0.2s; font-size: 1rem;
+        transition: all 0.2s;
     }
-    .btn-refresh:hover { background: #22211e; border-color: #fbbf24; color: #fbbf24; }
-    .admin-body-scroll { flex: 1; overflow-y: auto; background: #131210; }
+    .btn-refresh:hover { background: rgba(251, 191, 36, 0.2); border-color: #fbbf24; color: #fbbf24; }
+    .admin-body-scroll { flex: 1; overflow-y: auto; background: rgba(10, 14, 23, 0.85); }
 
-    :global(.admin-tab-content) { padding: 1.5rem; }
+    :global(.admin-tab-content) { padding: 1.2rem; }
     :global(.no-padding) { padding: 0; }
     :global(.stats-grid) { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem; }
     :global(.stat-card) {
