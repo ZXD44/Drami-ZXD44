@@ -70,11 +70,12 @@ VITE_IMGBB_API_KEY="1aa357e65c7f52d080aa13859e6040ec"
    - ไคลเอนต์ทุกคนจะได้รับ Event `force_reload` พร้อมแจ้งเตือน Notification แล้วสั่ง `window.location.reload()` ทันที
 2. **ระบบบันทึกจุดเกิดของผู้เล่น (Spawn Coordinates Persistence)**:
    - เพิ่มคอลัมน์ `spawnX`, `spawnY` ในตาราง `User` และซิงค์ลง `@type("number") spawnX`, `spawnY` ใน Colyseus `Player`
-   - แอดมินสามารถคลิก "ตั้งพิกัดปัจจุบันเป็นจุดเกิด" ได้แบบเรียลไทม์ และตัวละครจะเกิดตรงจุดนั้นเสมอ
+   - แก้ไข Authentication Token Mapping ดึงแอดมินผ่าน `(req as any).adminUser` บันทึกจุดเกิดพิกัดที่ยืนอยู่ได้ทันทีไม่มี Error
 3. **ระบบจัดการแมพและเอนทิตี ([`MapEditorTab.svelte`](client/src/lib/game/admin/MapEditorTab.svelte))**:
-   - แท็บ "จัดการแมพ/จุดเกิด" ใน Admin Panel
-   - ปรับแต่งและตรวจสอบขอบเขตแมพ (Width/Height Px & Tiles)
-   - วางจุดเกิดมอนสเตอร์, NPC เควส, ทรัพยากร (Resource Nodes), และประตูวาร์ป (Teleport Portal) ตรงตำแหน่งพิกัดที่ผู้เล่นยืนอยู่พร้อมระบบบันทึกเอนทิตี
+   - **Zero-Scroll Compact Layout**: เลย์เอาต์แอดมินแบบกะทัดรัด ไม่ต้องเลื่อนจอ (No Excessive Scrolling)
+   - **Realtime Spawner**: วางจุดเกิดมอนสเตอร์ (👾), NPC (🧙), ทรัพยากร (🌲), ประตูวาร์ป (🌀) ตรงพิกัดที่ผู้เล่นยืนอยู่ และซิงค์เข้า Colyseus State + เรนเดอร์บน Phaser `MainScene.ts` แบบเรียลไทม์
+   - **Instant Teleport Button**: ปุ่มวาร์ปในรายการเอนทิตี กดแล้วตัวละครวาร์ปไปหาเอนทิตีนั้นทันที
+   - ปรับปรุง `DashboardTab.svelte`, `PlayersTab.svelte` ให้กระชับ สบายตา พร้อมระบบค้นหาผู้เล่นด่วน (Live Search)
 
 ---
 
