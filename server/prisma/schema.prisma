@@ -19,6 +19,8 @@ model User {
   diamonds  Int      @default(0)
   avatar    String?  @default("/avatars/default.png")
   isBanned  Boolean  @default(false)
+  spawnX    Float?   @default(1200)
+  spawnY    Float?   @default(900)
   createdAt DateTime @default(now())
 
   inventory Inventory[]

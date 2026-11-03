@@ -141,6 +141,40 @@ router.get("/stats", requireAdmin, async (req, res) => {
     } catch (e) { res.status(500).json({ error: "Stats failed" }); }
 });
 
+router.post("/set-spawn", requireAdmin, async (req, res) => {
+    const { userId, x, y } = req.body;
+    try {
+        const targetX = Math.round(Number(x));
+        const targetY = Math.round(Number(y));
+        
+        if (userId) {
+            await prisma.user.update({
+                where: { id: userId },
+                data: { spawnX: targetX, spawnY: targetY } as any
+            });
+        }
+
+        res.json({ ok: true, spawnX: targetX, spawnY: targetY });
+    } catch (e) {
+        res.status(500).json({ error: "Failed to update spawn" });
+    }
+});
+
+router.post("/reload-all", requireAdmin, async (req, res) => {
+    try {
+        GameRoom.activeRooms.forEach(room => {
+            room.broadcast("force_reload", { 
+                reason: "แอดมินสั่งรีเฟรชหน้าเว็บของผู้เล่นทุกคนเพื่ออัปเดตระบบ" 
+            });
+        });
+        console.log(`[Admin] Forced global reload sent to ${GameRoom.activeRooms.length} rooms`);
+        res.json({ ok: true });
+    } catch (e) {
+        console.error("Reload-all failed:", e);
+        res.status(500).json({ error: "Reload failed" });
+    }
+});
+
 router.post("/broadcast", requireAdmin, async (req, res) => {
     const { message } = req.body;
     try {

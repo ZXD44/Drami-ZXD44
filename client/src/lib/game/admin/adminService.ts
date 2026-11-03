@@ -45,6 +45,31 @@ export const adminService = {
         return await res.json();
     },
 
+    async reloadAllPlayers() {
+        const res = await fetch(`${getAdminApiUrl()}/reload-all`, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("drami_token")}`
+            }
+        });
+        if (!res.ok) throw new Error("Failed to trigger reload");
+        return true;
+    },
+
+    async setSpawnPoint(userId: string, x: number, y: number) {
+        const res = await fetch(`${getAdminApiUrl()}/set-spawn`, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("drami_token")}`
+            },
+            body: JSON.stringify({ userId, x, y })
+        });
+        if (!res.ok) throw new Error("Failed to set spawn");
+        return await res.json();
+    },
+
     async sendBroadcast(message: string) {
         const res = await fetch(`${getAdminApiUrl()}/broadcast`, {
             method: "POST",

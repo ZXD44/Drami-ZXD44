@@ -8,6 +8,8 @@ export class Player extends Schema {
     @type("string") role: string = "member";
     @type("number") x: number = 1200;
     @type("number") y: number = 900;
+    @type("number") spawnX: number = 1200;
+    @type("number") spawnY: number = 900;
     @type("string") username: string = "";
     @type("number") level: number = 1;
     @type("number") gold: number = 0;
@@ -73,6 +75,39 @@ export class GameRoom extends Room<any> {
             }
         });
 
+        this.onMessage("set_spawn_point", async (client, data: { x: number, y: number }) => {
+            const state = this.state as GameState;
+            const player = state.players.get(client.sessionId);
+            if (!player || player.role !== "admin") return;
+
+            const targetX = Math.round(data.x);
+            const targetY = Math.round(data.y);
+
+            player.spawnX = targetX;
+            player.spawnY = targetY;
+
+            if (player.userId && !player.userId.startsWith("guest-")) {
+                try {
+                    await prisma.user.update({
+                        where: { id: player.userId },
+                        data: { spawnX: targetX, spawnY: targetY } as any
+                    });
+                    console.log(`[Spawn] Admin ${player.username} updated spawn point to (${targetX}, ${targetY})`);
+                    client.send("chat", { sessionId: "SERVER", message: `[ระบบ] บันทึกจุดเกิดของคุณสำเร็จที่ (${targetX}, ${targetY})` });
+                } catch (e) {
+                    console.error("[Spawn] Failed to save spawn point:", e);
+                }
+            }
+        });
+
+        this.onMessage("admin_reload_all", (client) => {
+            const player = (this.state as GameState).players.get(client.sessionId);
+            if (!player || player.role !== "admin") return;
+
+            console.log(`[Admin] Global reload triggered by ${player.username}`);
+            this.broadcast("force_reload", { reason: "เซิร์ฟเวอร์มีการอัปเดตระบบ กำลังรีโหลดหน้าเว็บของผู้เล่นทุกคน..." });
+        });
+
         this.onMessage("sync_profile", async (client) => {
             const player = (this.state as GameState).players.get(client.sessionId);
             if (player && player.userId) {
@@ -113,6 +148,12 @@ export class GameRoom extends Room<any> {
                     player.diamonds = (user as any).diamonds || 0;
                     player.exp = user.exp || 0;
                     player.avatar = (user as any).avatar || "";
+                    if ((user as any).spawnX) {
+                        player.spawnX = (user as any).spawnX;
+                        player.spawnY = (user as any).spawnY || 900;
+                        player.x = player.spawnX;
+                        player.y = player.spawnY;
+                    }
                 }
             } catch (e) {
                 console.error("Failed to load user data on join:", e);
