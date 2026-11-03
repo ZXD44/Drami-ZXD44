@@ -7,6 +7,7 @@ import { playerPos, gameSettings, showNotification, showAnnouncement, activeAnno
 export class MainScene extends Phaser.Scene {
     private player!: Phaser.GameObjects.Sprite;
     private otherPlayers: Map<string, { sprite: Phaser.GameObjects.Sprite, nameText: Phaser.GameObjects.Text, lastDir: string }> = new Map();
+    private worldEntities: Map<string, { container: Phaser.GameObjects.Container, label: Phaser.GameObjects.Text }> = new Map();
     private inputManager!: InputManager;
     private speechBubbleManager!: SpeechBubbleManager;
     private playerNameText!: Phaser.GameObjects.Text;
@@ -30,6 +31,7 @@ export class MainScene extends Phaser.Scene {
         this.gender = data.gender;
         this.username = data.username;
         this.addChatMessage = data.addChatMessage;
+        (window as any).__drami_room = data.room;
     }
 
     preload() {
@@ -313,6 +315,77 @@ export class MainScene extends Phaser.Scene {
                 this.otherPlayers.delete(sessionId);
             }
         });
+
+        // Sync Dynamic World Entities (Monsters, NPCs, Portals, Trees)
+        if (this.room.state.entities) {
+            callbacks(this.room.state).entities.onAdd((serverEntity: any, entityId: string) => {
+                const container = this.add.container(serverEntity.x, serverEntity.y);
+
+                let iconSymbol = "👾";
+                let tagColor = "#f43f5e";
+                let borderColor = "#881337";
+
+                if (serverEntity.type === "npc") {
+                    iconSymbol = "🧙";
+                    tagColor = "#38bdf8";
+                    borderColor = "#0369a1";
+                } else if (serverEntity.type === "tree") {
+                    iconSymbol = "🌲";
+                    tagColor = "#4ade80";
+                    borderColor = "#15803d";
+                } else if (serverEntity.type === "teleport") {
+                    iconSymbol = "🌀";
+                    tagColor = "#c084fc";
+                    borderColor = "#7e22ce";
+                }
+
+                // Entity Visual Graphic
+                const baseGraphic = this.add.circle(0, 0, 16, Phaser.Display.Color.HexStringToColor(tagColor).color, 0.45);
+                baseGraphic.setStrokeStyle(2, Phaser.Display.Color.HexStringToColor(borderColor).color);
+
+                const iconText = this.add.text(0, 0, iconSymbol, {
+                    fontSize: "18px",
+                    align: "center"
+                }).setOrigin(0.5);
+
+                const nameLabel = this.add.text(0, -28, serverEntity.name || "Entity", {
+                    fontFamily: GameConstants.FONT,
+                    fontSize: "11px",
+                    fontStyle: "bold",
+                    color: tagColor,
+                    stroke: "#000000",
+                    strokeThickness: 3,
+                    align: "center"
+                }).setOrigin(0.5);
+
+                container.add([baseGraphic, iconText, nameLabel]);
+                container.setDepth(serverEntity.y);
+
+                // Click interaction
+                container.setSize(36, 36);
+                container.setInteractive({ useHandCursor: true });
+                container.on("pointerdown", () => {
+                    this.speechBubbleManager.show(serverEntity.x, serverEntity.y - 40, `[${serverEntity.name}] สวัสดีนักเดินทาง!`);
+                    showNotification(`คุณกำลังโต้ตอบกับ: ${serverEntity.name} (${serverEntity.type})`, "info");
+                });
+
+                this.worldEntities.set(entityId, { container, label: nameLabel });
+
+                callbacks(serverEntity).onChange(() => {
+                    container.setPosition(serverEntity.x, serverEntity.y);
+                    container.setDepth(serverEntity.y);
+                    nameLabel.setText(serverEntity.name);
+                });
+            });
+
+            callbacks(this.room.state).entities.onRemove((_ent: any, entityId: string) => {
+                const item = this.worldEntities.get(entityId);
+                if (item) {
+                    item.container.destroy();
+                    this.worldEntities.delete(entityId);
+                }
+            });
+        }
     }
 
     private setupReactiveSettings() {

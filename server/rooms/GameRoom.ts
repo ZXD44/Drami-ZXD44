@@ -18,8 +18,19 @@ export class Player extends Schema {
     @type("string") avatar: string = "";
 }
 
+export class WorldEntity extends Schema {
+    @type("string") id: string = "";
+    @type("string") type: string = "monster"; // 'monster' | 'npc' | 'tree' | 'teleport'
+    @type("string") name: string = "";
+    @type("number") x: number = 0;
+    @type("number") y: number = 0;
+    @type("number") hp: number = 100;
+    @type("number") maxHp: number = 100;
+}
+
 export class GameState extends Schema {
     @type({ map: Player }) players = new MapSchema<Player>();
+    @type({ map: WorldEntity }) entities = new MapSchema<WorldEntity>();
 }
 
 export class GameRoom extends Room<any> {
@@ -29,6 +40,69 @@ export class GameRoom extends Room<any> {
     onCreate(options: any) {
         GameRoom.activeRooms.push(this);
         this.setState(new GameState());
+
+        // Spawn Default World NPCs & Monsters
+        const defaultEntities: Array<Partial<WorldEntity>> = [
+            { id: "npc_elder", type: "npc", name: "Elder Thorne", x: 1250, y: 920, hp: 100, maxHp: 100 },
+            { id: "npc_guide", type: "npc", name: "Ranger Lina", x: 1350, y: 980, hp: 100, maxHp: 100 },
+            { id: "mob_goblin_1", type: "monster", name: "Forest Goblin", x: 1600, y: 880, hp: 80, maxHp: 80 },
+            { id: "mob_goblin_2", type: "monster", name: "Forest Goblin", x: 1750, y: 920, hp: 80, maxHp: 80 },
+            { id: "tree_ancient", type: "tree", name: "Ancient Oak", x: 1100, y: 850, hp: 200, maxHp: 200 },
+            { id: "teleport_citadel", type: "teleport", name: "Citadel Gate", x: 2400, y: 1800, hp: 1, maxHp: 1 },
+        ];
+
+        defaultEntities.forEach(item => {
+            const ent = new WorldEntity();
+            ent.id = item.id!;
+            ent.type = item.type!;
+            ent.name = item.name!;
+            ent.x = item.x!;
+            ent.y = item.y!;
+            ent.hp = item.hp || 100;
+            ent.maxHp = item.maxHp || 100;
+            (this.state as GameState).entities.set(ent.id, ent);
+        });
+
+        this.onMessage("admin_spawn_entity", (client, data: { type: string, name: string, x: number, y: number, hp?: number }) => {
+            const player = (this.state as GameState).players.get(client.sessionId);
+            if (!player || player.role !== "admin") return;
+
+            const ent = new WorldEntity();
+            ent.id = `ent_${Date.now()}_${Math.floor(Math.random() * 999)}`;
+            ent.type = data.type || "monster";
+            ent.name = data.name || "Entity";
+            ent.x = Math.round(data.x);
+            ent.y = Math.round(data.y);
+            ent.hp = data.hp || 100;
+            ent.maxHp = data.hp || 100;
+
+            (this.state as GameState).entities.set(ent.id, ent);
+            console.log(`[Admin Spawner] ${player.username} spawned ${ent.name} (${ent.type}) at (${ent.x}, ${ent.y})`);
+            client.send("chat", { sessionId: "SERVER", message: `[ระบบ] วาง ${ent.name} (${ent.type}) สำเร็จที่ (${ent.x}, ${ent.y})` });
+        });
+
+        this.onMessage("admin_remove_entity", (client, data: { id: string }) => {
+            const player = (this.state as GameState).players.get(client.sessionId);
+            if (!player || player.role !== "admin") return;
+
+            const state = this.state as GameState;
+            if (state.entities.has(data.id)) {
+                const ent = state.entities.get(data.id);
+                state.entities.delete(data.id);
+                console.log(`[Admin Spawner] ${player.username} removed entity ${data.id}`);
+                client.send("chat", { sessionId: "SERVER", message: `[ระบบ] ลบเอนทิตี ${ent?.name || data.id} ออกจากแผนที่แล้ว` });
+            }
+        });
+
+        this.onMessage("admin_teleport_to", (client, data: { x: number, y: number }) => {
+            const player = (this.state as GameState).players.get(client.sessionId);
+            if (!player || player.role !== "admin") return;
+
+            player.x = Math.round(data.x);
+            player.y = Math.round(data.y);
+            client.send("snapback", { x: player.x, y: player.y });
+            client.send("chat", { sessionId: "SERVER", message: `[วาร์ป] เคลื่อนย้ายไปยังพิกัด (${player.x}, ${player.y})` });
+        });
 
         this.onMessage("move", (client, data) => {
             const state = this.state as GameState;
