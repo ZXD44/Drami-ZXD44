@@ -16,6 +16,7 @@
 	import AdminPanel from "$lib/game/AdminPanel.svelte";
 	import AvatarCreator from "$lib/game/AvatarCreator.svelte";
 	import VirtualJoystick from "$lib/game/components/VirtualJoystick.svelte";
+	import Icon from "$lib/game/components/Icon.svelte";
 
 	// Services & Utils
 	import { uploadAvatar, createCharacter } from "$lib/game/services/playerService";
@@ -175,11 +176,18 @@
 <VirtualJoystick />
 
 <div class="hud-side-panel">
-	{#each [['Q', 'quests', '📜'], ['T', 'skills', '⚡'], ['F', 'party', '👥'], ['ESC', 'settings', '⚙️']] as [key, id, icon]}
-		<button class="side-btn" class:side-btn-active={id === 'quests' ? showQuests : id === 'skills' ? showSkills : id === 'party' ? showParty : showSettings} onclick={() => togglePanel(id)}>
-			{icon} <span class="hotbar-skill-key">{key}</span>
-		</button>
-	{/each}
+	<button class="side-btn" class:side-btn-active={showQuests} onclick={() => togglePanel('quests')} title="เควส">
+		<Icon name="quest" size={16} /> <span class="hotbar-skill-key">Q</span>
+	</button>
+	<button class="side-btn" class:side-btn-active={showSkills} onclick={() => togglePanel('skills')} title="ทักษะ">
+		<Icon name="skill" size={16} /> <span class="hotbar-skill-key">T</span>
+	</button>
+	<button class="side-btn" class:side-btn-active={showParty} onclick={() => togglePanel('party')} title="ปาร์ตี้">
+		<Icon name="party" size={16} /> <span class="hotbar-skill-key">F</span>
+	</button>
+	<button class="side-btn" class:side-btn-active={showSettings} onclick={() => togglePanel('settings')} title="ตั้งค่า">
+		<Icon name="settings" size={16} /> <span class="hotbar-skill-key">ESC</span>
+	</button>
 </div>
 
 <Hotbar bind:showEmoji sendEmoji={(e) => { sendServerMessage('chat', e); addChatMessage(`[ท้องถิ่น] ${$playerSummary.name}: ${e}`); showEmoji = false; }} {togglePanel} />
@@ -260,16 +268,16 @@
 			<!-- Quick Nav Buttons -->
 			<div class="menu-nav-grid">
 				<button class="menu-nav-btn" onclick={() => { showMainMenu = false; togglePanel('inventory'); }}>
-					<span class="nav-icon">🎒</span><span>กระเป๋า</span>
+					<span class="nav-icon"><Icon name="inventory" size={18} color="#fde047" /></span><span>กระเป๋า</span>
 				</button>
 				<button class="menu-nav-btn" onclick={() => { showMainMenu = false; togglePanel('skills'); }}>
-					<span class="nav-icon">⚡</span><span>ทักษะ</span>
+					<span class="nav-icon"><Icon name="skill" size={18} color="#eab308" /></span><span>ทักษะ</span>
 				</button>
 				<button class="menu-nav-btn" onclick={() => { showMainMenu = false; togglePanel('quests'); }}>
-					<span class="nav-icon">📜</span><span>เควส</span>
+					<span class="nav-icon"><Icon name="quest" size={18} color="#60a5fa" /></span><span>เควส</span>
 				</button>
 				<button class="menu-nav-btn" onclick={() => { showMainMenu = false; togglePanel('party'); }}>
-					<span class="nav-icon">👥</span><span>ปาร์ตี้</span>
+					<span class="nav-icon"><Icon name="party" size={18} color="#4ade80" /></span><span>ปาร์ตี้</span>
 				</button>
 			</div>
 
@@ -281,12 +289,12 @@
 				</button>
 				{#if isAdmin}
 					<button class="menu-action-btn admin-action" onclick={() => { showMainMenu = false; showAdminPanel = true; }}>
-						<span class="action-icon">🔧</span>
+						<span class="action-icon"><Icon name="admin" size={16} color="#fde047" /></span>
 						<span>จัดการ</span>
 					</button>
 				{/if}
 				<button class="menu-action-btn logout-action" onclick={onLogout}>
-					<span class="action-icon">🚪</span>
+					<span class="action-icon"><Icon name="logout" size={16} color="#ef4444" /></span>
 					<span>ออกจากเกม</span>
 				</button>
 			</div>
