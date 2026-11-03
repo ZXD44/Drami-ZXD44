@@ -8,19 +8,15 @@
     let currentY = $state(900);
     let isSaving = $state(false);
 
-    // World Boundaries
-    let mapWidth = $state(4800);
-    let mapHeight = $state(4800);
-    let zoomScale = $state(1);
-
     // Entity Creator State
     let entityType = $state<"monster" | "npc" | "teleport" | "tree">("monster");
-    let entityName = $state("Slime");
-    let entityHp = $state(100);
+    let entityName = $state("Forest Goblin");
+    let entityHp = $state(80);
     let placedEntities = $state<Array<{ id: string; type: string; name: string; x: number; y: number }>>([
-        { id: "e1", type: "npc", name: "Elder Thorne", x: 1250, y: 920 },
-        { id: "e2", type: "monster", name: "Forest Goblin", x: 1400, y: 880 },
-        { id: "e3", type: "tree", name: "Ancient Beech", x: 1100, y: 950 }
+        { id: "npc_elder", type: "npc", name: "Elder Thorne", x: 1250, y: 920 },
+        { id: "npc_guide", type: "npc", name: "Ranger Lina", x: 1350, y: 980 },
+        { id: "mob_goblin_1", type: "monster", name: "Forest Goblin", x: 1600, y: 880 },
+        { id: "tree_ancient", type: "tree", name: "Ancient Oak", x: 1100, y: 850 }
     ]);
 
     onMount(() => {
@@ -34,17 +30,22 @@
     async function setSpawnHere() {
         isSaving = true;
         try {
+            const win = window as any;
+            if (win.__drami_room) {
+                win.__drami_room.send("set_spawn_point", { x: currentX, y: currentY });
+            }
+
             const token = localStorage.getItem("drami_token");
             let userId = "";
             if (token) {
                 try {
                     const payload = JSON.parse(atob(token.split('.')[1]));
-                    userId = payload.id;
+                    userId = payload.userId || payload.id || "";
                 } catch (e) {}
             }
 
             await adminService.setSpawnPoint(userId, currentX, currentY);
-            showNotification(`บันทึกจุดเกิดที่พิกัด (${currentX}, ${currentY}) เรียบร้อย!`, "success");
+            showNotification(`บันทึกจุดเกิดที่พิกัด (${currentX}, ${currentY}) สำเร็จ!`, "success");
         } catch (e: any) {
             showNotification(e.message || "เกิดข้อผิดพลาดในการบันทึกจุดเกิด", "error");
         } finally {
@@ -53,7 +54,7 @@
     }
 
     async function triggerGlobalReload() {
-        if (!confirm("ต้องการรีโหลดหน้าเว็บของผู้เล่นทุกคนทันทีใช่หรือไม่?")) return;
+        if (!confirm("ต้องการสั่งรีโหลดหน้าเว็บของผู้เล่นทุกคนทันทีใช่หรือไม่?")) return;
         try {
             await adminService.reloadAllPlayers();
             showNotification("ส่งคำสั่งรีโหลดหน้าเว็บผู้เล่นทุกคนเรียบร้อย!", "success");
@@ -63,8 +64,8 @@
     }
 
     function addEntityAtPlayer() {
-        // Send directly via WebSocket to Room if active
         const win = window as any;
+        const newId = `ent_${Date.now()}`;
         if (win.__drami_room) {
             win.__drami_room.send("admin_spawn_entity", {
                 type: entityType,
@@ -75,15 +76,11 @@
             });
         }
 
-        const newObj = {
-            id: `entity_${Date.now()}`,
-            type: entityType,
-            name: entityName,
-            x: currentX,
-            y: currentY
-        };
-        placedEntities = [...placedEntities, newObj];
-        showNotification(`วาง ${entityName} (${entityType}) สำเร็จบนเซิร์ฟเวอร์!`, "success");
+        placedEntities = [
+            { id: newId, type: entityType, name: entityName, x: currentX, y: currentY },
+            ...placedEntities
+        ];
+        showNotification(`วาง ${entityName} (${entityType}) ที่ (${currentX}, ${currentY}) เรียบร้อย!`, "success");
     }
 
     function removeEntity(id: string) {
@@ -92,132 +89,99 @@
             win.__drami_room.send("admin_remove_entity", { id });
         }
         placedEntities = placedEntities.filter(e => e.id !== id);
-        showNotification("ลบเอนทิตีออกจากแผนที่แล้ว", "info");
+        showNotification("ลบเอนทิตีเรียบร้อย", "info");
     }
 
     function teleportToEntity(x: number, y: number) {
         const win = window as any;
         if (win.__drami_room) {
             win.__drami_room.send("admin_teleport_to", { x, y });
-            showNotification(`วาร์ปไปยังพิกัด (${x}, ${y})`, "success");
+            showNotification(`วาร์ปไปพิกัด (${x}, ${y})`, "success");
         }
     }
 </script>
 
-<div class="map-editor-tab fade-in">
-    <!-- Top Global Deployment & Reload Bar -->
-    <div class="editor-header-card">
-        <div class="header-status-group">
-            <div class="live-dot-pulse"></div>
-            <div>
-                <h4 class="card-title">Live World Orchestrator</h4>
-                <p class="card-desc">จัดการขอบเขตแมพ พิกัดเกิด และเอนทิตีแบบเรียลไทม์</p>
-            </div>
+<div class="map-editor-compact">
+    <!-- Top Action Bar -->
+    <div class="top-command-bar">
+        <div class="live-coords-pill">
+            <span class="live-dot"></span>
+            <span class="coords-label">พิกัดปัจจุบัน:</span>
+            <span class="coords-val">X: {currentX} | Y: {currentY}</span>
         </div>
-        <div class="header-btn-group">
-            <button class="btn-reload-world" onclick={triggerGlobalReload} title="รีโหลดหน้าต่างผู้เล่นทุกคนในเซิร์ฟ">
+        <div class="quick-btns">
+            <button class="btn-save-spawn" onclick={setSpawnHere} disabled={isSaving}>
+                <Icon name="pin" size={14} color="#000" />
+                <span>{isSaving ? 'กำลังบันทึก...' : 'เซฟจุดเกิดตรงนี้'}</span>
+            </button>
+            <button class="btn-force-reload" onclick={triggerGlobalReload} title="รีโหลดหน้าต่างผู้เล่นทุกคนในเซิร์ฟ">
                 <Icon name="horn" size={14} color="#fca5a5" />
-                <span>รีโหลดหน้าเว็บทุกคน (Sync Update)</span>
+                <span>รีโหลดทุกคน (Sync)</span>
             </button>
         </div>
     </div>
 
-    <!-- 2 Column Layout: Controls & Entity Placer -->
-    <div class="editor-columns-grid">
-        <!-- Left: Spawn Point & Map Bounds -->
-        <div class="editor-subpanel">
-            <h5 class="subpanel-title">
-                <Icon name="map" size={15} color="#fcd34d" />
-                <span>จุดเกิดหลัก & พิกัดปัจจุบัน</span>
-            </h5>
+    <!-- 2 Column Compact Grid (Zero Waste Space) -->
+    <div class="two-col-layout">
+        <!-- Left: Quick Spawner Form -->
+        <div class="card-box">
+            <div class="card-header">
+                <Icon name="sparkles" size={14} color="#fcd34d" />
+                <span>วางเอนทิตีลงแมพ (Instant Spawner)</span>
+            </div>
             
-            <div class="coord-display-card">
-                <div class="coord-stat">
-                    <span class="coord-key">CURRENT X</span>
-                    <span class="coord-val">{currentX}</span>
-                </div>
-                <div class="coord-divider"></div>
-                <div class="coord-stat">
-                    <span class="coord-key">CURRENT Y</span>
-                    <span class="coord-val">{currentY}</span>
-                </div>
-            </div>
-
-            <button class="btn-primary-gold full-width" onclick={setSpawnHere} disabled={isSaving} style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <Icon name="pin" size={16} />
-                <span>{isSaving ? 'กำลังบันทึก...' : 'ตั้งพิกัดปัจจุบันเป็นจุดเกิด (Save Spawn)'}</span>
-            </button>
-
-            <!-- Map Dimensions -->
-            <div class="bounds-config-section">
-                <h5 class="subpanel-title" style="margin-top: 1.2rem;">
-                    <Icon name="settings" size={15} color="#60a5fa" />
-                    <span>ขอบเขตแผนที่ (Map Boundary)</span>
-                </h5>
-                <div class="bounds-input-grid">
-                    <div class="bound-field">
-                        <label for="bound-w">ความกว้าง (Width Px)</label>
-                        <input id="bound-w" type="number" bind:value={mapWidth} class="admin-input" />
-                    </div>
-                    <div class="bound-field">
-                        <label for="bound-h">ความสูง (Height Px)</label>
-                        <input id="bound-h" type="number" bind:value={mapHeight} class="admin-input" />
-                    </div>
-                </div>
-                <div class="bound-summary">
-                    <span>ขนาดย่อย: {Math.floor(mapWidth / 32)} x {Math.floor(mapHeight / 32)} Tiles</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right: Spawner / Asset Placer -->
-        <div class="editor-subpanel">
-            <h5 class="subpanel-title">
-                <Icon name="swords" size={15} color="#f43f5e" />
-                <span>เครื่องมือวางมอนสเตอร์ / NPC / ทรัพยากร</span>
-            </h5>
-
-            <div class="spawner-form-grid">
-                <div class="bound-field">
-                    <label for="ent-type">ประเภทเอนทิตี</label>
-                    <select id="ent-type" bind:value={entityType} class="admin-select">
-                        <option value="monster">👾 Monster (มอนสเตอร์โจมตี)</option>
-                        <option value="npc">🧙 NPC (ผู้มอบเควส/พูดคุย)</option>
-                        <option value="tree">🌲 Resource (ต้นไม้/แร่)</option>
-                        <option value="teleport">🌀 Teleport Portal (วาร์ป)</option>
+            <div class="form-compact-grid">
+                <div class="field-group">
+                    <label for="c-type">ประเภท</label>
+                    <select id="c-type" bind:value={entityType} class="select-lux">
+                        <option value="monster">👾 มอนสเตอร์ (Monster)</option>
+                        <option value="npc">🧙 NPC เควส/ร้านค้า</option>
+                        <option value="tree">🌲 ทรัพยากร (ต้นไม้/แร่)</option>
+                        <option value="teleport">🌀 ประตูวาร์ป (Portal)</option>
                     </select>
                 </div>
 
-                <div class="bound-field">
-                    <label for="ent-name">ชื่อเอนทิตี</label>
-                    <input id="ent-name" type="text" bind:value={entityName} class="admin-input" placeholder="เช่น Slime King" />
+                <div class="field-group">
+                    <label for="c-name">ชื่อเอนทิตี</label>
+                    <input id="c-name" type="text" bind:value={entityName} class="input-lux" placeholder="เช่น Forest Goblin" />
                 </div>
             </div>
 
-            <button class="btn-create-entity" onclick={addEntityAtPlayer}>
-                <Icon name="sparkles" size={15} color="#fff" />
-                <span>วางที่ตำแหน่งผู้เล่นยืนอยู่ ({currentX}, {currentY})</span>
+            <button class="btn-action-spawn" onclick={addEntityAtPlayer}>
+                <Icon name="sparkles" size={14} color="#ffffff" />
+                <span>วางเอนทิตีตรงตำแหน่งที่ยืนอยู่ ({currentX}, {currentY})</span>
             </button>
 
-            <!-- Entities List in Scene -->
-            <div class="entities-list-header">
-                <span>เอนทิตีในแผนที่ ({placedEntities.length})</span>
+            <div class="quick-tips">
+                * เอนทิตีจะแสดงในเกมทันทีและผู้เล่นทุกคนจะเห็นพร้อมกันแบบ Real-time
+            </div>
+        </div>
+
+        <!-- Right: Active Entities List with Teleport -->
+        <div class="card-box">
+            <div class="card-header space-between">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <Icon name="map" size={14} color="#38bdf8" />
+                    <span>รายการเอนทิตีในแมพ ({placedEntities.length})</span>
+                </div>
+                <span class="subtext-badge">คลิกปุ่มเพื่อวาร์ปหา</span>
             </div>
 
-            <div class="entities-scroll-container">
+            <div class="entities-compact-list">
                 {#each placedEntities as ent}
-                    <div class="entity-item-row">
-                        <div class="entity-meta">
-                            <span class="entity-tag {ent.type}">{ent.type.toUpperCase()}</span>
-                            <span class="entity-name">{ent.name}</span>
-                            <span class="entity-coords">({ent.x}, {ent.y})</span>
+                    <div class="entity-compact-row">
+                        <div class="ent-info">
+                            <span class="ent-badge {ent.type}">{ent.type}</span>
+                            <span class="ent-title">{ent.name}</span>
+                            <span class="ent-pos">({ent.x}, {ent.y})</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 4px;">
-                            <button class="btn-warp-ent" onclick={() => teleportToEntity(ent.x, ent.y)} title="วาร์ปไปหา">
-                                <Icon name="ping" size={12} color="#38bdf8" />
+                        <div class="ent-btns">
+                            <button class="btn-sm warp" onclick={() => teleportToEntity(ent.x, ent.y)} title="วาร์ปไปหา">
+                                <Icon name="ping" size={11} color="#38bdf8" />
+                                <span>วาร์ป</span>
                             </button>
-                            <button class="btn-del-ent" onclick={() => removeEntity(ent.id)} title="ลบ">
-                                <Icon name="close" size={12} color="#f87171" />
+                            <button class="btn-sm del" onclick={() => removeEntity(ent.id)} title="ลบออก">
+                                <Icon name="close" size={11} color="#f87171" />
                             </button>
                         </div>
                     </div>
@@ -228,169 +192,169 @@
 </div>
 
 <style>
-    .map-editor-tab {
+    .map-editor-compact {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        padding: 0.5rem 0;
+        gap: 10px;
+        height: 100%;
+        overflow: hidden;
     }
 
-    .editor-header-card {
+    .top-command-bar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 14px;
-        background: linear-gradient(90deg, rgba(239, 68, 68, 0.12) 0%, rgba(245, 158, 11, 0.12) 100%);
-        border: 1px solid rgba(239, 68, 68, 0.35);
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(251, 191, 36, 0.25);
         border-radius: 8px;
+        padding: 6px 10px;
     }
 
-    .header-status-group {
+    .live-coords-pill {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
 
-    .live-dot-pulse {
-        width: 10px;
-        height: 10px;
+    .live-dot {
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
-        background: #ef4444;
-        box-shadow: 0 0 10px #ef4444;
-        animation: pulse 1.5s infinite;
+        background: #10b981;
+        box-shadow: 0 0 8px #10b981;
+        animation: pulseDot 1.5s infinite;
     }
 
-    .card-title {
-        font-family: 'IBM Plex Sans Thai', sans-serif;
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #f8fafc;
-        margin: 0;
-    }
-
-    .card-desc {
-        font-size: 0.75rem;
+    .coords-label {
+        font-size: 0.78rem;
         color: #94a3b8;
-        margin: 2px 0 0 0;
     }
 
-    .btn-reload-world {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(239, 68, 68, 0.2);
-        border: 1px solid rgba(239, 68, 68, 0.5);
-        color: #fca5a5;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-family: 'IBM Plex Sans Thai', sans-serif;
-        font-size: 0.8rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.15s ease;
-    }
-
-    .btn-reload-world:hover {
-        background: rgba(239, 68, 68, 0.4);
-        border-color: #ef4444;
-        color: #ffffff;
-    }
-
-    /* 2 Column Layout */
-    .editor-columns-grid {
-        display: grid;
-        grid-template-columns: 1fr 1.2fr;
-        gap: 1rem;
-    }
-
-    .editor-subpanel {
-        background: rgba(15, 23, 42, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 8px;
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    .subpanel-title {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-family: 'IBM Plex Sans Thai', sans-serif;
+    .coords-val {
+        font-family: monospace;
         font-size: 0.85rem;
-        font-weight: 700;
-        color: #f1f5f9;
-        margin: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding-bottom: 6px;
-    }
-
-    .coord-display-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        background: rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(251, 191, 36, 0.2);
-        border-radius: 6px;
-        padding: 8px;
-    }
-
-    .coord-stat {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2px;
-    }
-
-    .coord-key {
-        font-family: 'Press Start 2P', monospace;
-        font-size: 0.5rem;
-        color: #94a3b8;
-    }
-
-    .coord-val {
-        font-family: 'IBM Plex Sans Thai', monospace;
-        font-size: 1.1rem;
         font-weight: 700;
         color: #fcd34d;
     }
 
-    .coord-divider {
-        width: 1px;
-        height: 25px;
-        background: rgba(255, 255, 255, 0.15);
+    .quick-btns {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .bounds-input-grid {
+    .btn-save-spawn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: linear-gradient(180deg, #fde047 0%, #eab308 100%);
+        border: none;
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #451a03;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    .btn-save-spawn:hover {
+        filter: brightness(1.1);
+        transform: translateY(-1px);
+    }
+
+    .btn-force-reload {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid rgba(239, 68, 68, 0.45);
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #fca5a5;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    .btn-force-reload:hover {
+        background: rgba(239, 68, 68, 0.35);
+        color: #fff;
+    }
+
+    /* 2 Column Layout */
+    .two-col-layout {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        margin-top: 6px;
+        gap: 10px;
+        flex: 1;
+        min-height: 0;
     }
 
-    .bound-field label {
-        display: block;
-        font-size: 0.75rem;
+    .card-box {
+        background: rgba(15, 23, 42, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-height: 0;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding-bottom: 5px;
+    }
+
+    .card-header.space-between {
+        justify-content: space-between;
+    }
+
+    .subtext-badge {
+        font-size: 0.65rem;
         color: #94a3b8;
-        margin-bottom: 4px;
     }
 
-    .bound-summary {
-        font-size: 0.72rem;
-        color: #38bdf8;
-        margin-top: 4px;
-        text-align: right;
-    }
-
-    /* Spawner Controls */
-    .spawner-form-grid {
+    .form-compact-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px;
     }
 
-    .btn-create-entity {
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .field-group label {
+        font-size: 0.7rem;
+        color: #94a3b8;
+    }
+
+    .select-lux, .input-lux {
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 5px;
+        padding: 5px 8px;
+        font-size: 0.78rem;
+        color: #f8fafc;
+        outline: none;
+    }
+
+    .select-lux:focus, .input-lux:focus {
+        border-color: #f59e0b;
+    }
+
+    .btn-action-spawn {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -398,82 +362,121 @@
         background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
         border: none;
         border-radius: 6px;
-        padding: 8px;
-        font-family: 'IBM Plex Sans Thai', sans-serif;
+        padding: 7px;
         font-size: 0.8rem;
-        font-weight: 600;
+        font-weight: 700;
         color: #ffffff;
         cursor: pointer;
-        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
         transition: all 0.15s ease;
     }
 
-    .btn-create-entity:hover {
+    .btn-action-spawn:hover {
         filter: brightness(1.15);
     }
 
-    .entities-list-header {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: #94a3b8;
-        margin-top: 4px;
+    .quick-tips {
+        font-size: 0.68rem;
+        color: #64748b;
+        margin-top: auto;
     }
 
-    .entities-scroll-container {
-        max-height: 120px;
+    /* Entities List */
+    .entities-compact-list {
+        flex: 1;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
         gap: 4px;
+        max-height: 280px;
     }
 
-    .entity-item-row {
+    .entities-compact-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .entities-compact-list::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+    }
+
+    .entity-compact-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.35);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 4px;
+        border-radius: 5px;
         padding: 4px 8px;
     }
 
-    .entity-meta {
+    .ent-info {
         display: flex;
         align-items: center;
         gap: 6px;
-        font-size: 0.75rem;
+        font-size: 0.74rem;
     }
 
-    .entity-tag {
-        font-size: 0.62rem;
+    .ent-badge {
+        font-size: 0.6rem;
         font-weight: 700;
         padding: 1px 4px;
         border-radius: 3px;
+        text-transform: uppercase;
     }
-    .entity-tag.monster { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-    .entity-tag.npc { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-    .entity-tag.tree { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .entity-tag.teleport { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+    .ent-badge.monster { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .ent-badge.npc { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+    .ent-badge.tree { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .ent-badge.teleport { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
 
-    .entity-name {
+    .ent-title {
         color: #e2e8f0;
-        font-weight: 500;
+        font-weight: 600;
     }
 
-    .entity-coords {
+    .ent-pos {
         color: #64748b;
         font-family: monospace;
+        font-size: 0.7rem;
     }
 
-    .btn-del-ent {
-        background: transparent;
-        border: none;
+    .ent-btns {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .btn-sm {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-size: 0.65rem;
+        font-weight: 600;
         cursor: pointer;
-        padding: 2px;
+        border: none;
+    }
+    .btn-sm.warp {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .btn-sm.warp:hover {
+        background: rgba(56, 189, 248, 0.3);
+        color: #fff;
+    }
+    .btn-sm.del {
+        background: rgba(239, 68, 68, 0.15);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .btn-sm.del:hover {
+        background: rgba(239, 68, 68, 0.35);
+        color: #fff;
     }
 
-    @keyframes pulse {
+    @keyframes pulseDot {
         0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.4; transform: scale(1.15); }
+        50% { opacity: 0.3; transform: scale(1.2); }
     }
 </style>

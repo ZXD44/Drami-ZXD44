@@ -58,15 +58,23 @@ export const adminService = {
     },
 
     async setSpawnPoint(userId: string, x: number, y: number) {
+        const token = localStorage.getItem("drami_token");
         const res = await fetch(`${getAdminApiUrl()}/set-spawn`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("drami_token")}`
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({ userId, x, y })
         });
-        if (!res.ok) throw new Error("Failed to set spawn");
+        if (!res.ok) {
+            let errorText = "Failed to set spawn";
+            try {
+                const data = await res.json();
+                if (data.error) errorText = data.error;
+            } catch (e) {}
+            throw new Error(errorText);
+        }
         return await res.json();
     },
 
